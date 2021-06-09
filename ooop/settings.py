@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -128,10 +129,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "dashboard"
 # EMAIL_HOST = "localhost"
 # EMAIL_PORT = 1025
-EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+    #"smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "infonaturalhazards@gmail.com"
-EMAIL_HOST_PASSWORD = "1q2w3e4R?"
-# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+# EMAIL_HOST_USER = "infonaturalhazards@gmail.com"
+# EMAIL_HOST_PASSWORD = "1q2w3e4R?"
+# DEFAULT_FROM_EMAIL = "info@ooop.com"
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}

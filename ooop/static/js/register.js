@@ -1,7 +1,22 @@
 const usernameField = document.querySelector('#usernameField');
 const feedbackArea= document.querySelector('.invalid_feedback');
 const emailField = document.querySelector('#emailField');
+const passwordField = document.querySelector('#passwordField');
 const emailFeedBackArea= document.querySelector('.emailFeedBackArea');
+const showPasswordToggle= document.querySelector('.showPasswordToggle');
+const submitBtn = document.querySelector('.submit-btn');
+
+const handleToggleInput = (e) => {
+  if (showPasswordToggle.textContent === "SHOW") {
+    showPasswordToggle.textContent = "HIDE";
+    passwordField.setAttribute("type", "text");
+  } else {
+    showPasswordToggle.textContent = "SHOW";
+    passwordField.setAttribute("type", "password");
+  }
+};
+
+showPasswordToggle.addEventListener("click", handleToggleInput);
 
 emailField.addEventListener("keyup", (e) => {
     const emailVal = e.target.value;
@@ -17,9 +32,12 @@ emailField.addEventListener("keyup", (e) => {
             .then((data) => {
                 console.log(data.email_error);
                 if(data.email_error) {
+                    submitBtn.disabled = true;
                     usernameField.classList.add("is-invalid");
                     emailFeedBackArea.style.display = "block";
                     emailFeedBackArea.innerHTML=`<p>${data.email_error}</p>`
+                } else {
+                    submitBtn.removeAttribute("disabled");
                 }
         });
     }
@@ -40,9 +58,12 @@ usernameField.addEventListener("keyup", (e) => {
             .then((data) => {
                 console.log(data.username_error);
                 if(data.username_error) {
+                    submitBtn.disabled = true;
                     usernameField.classList.add("is-invalid");
                     feedbackArea.style.display = "block";
                     feedbackArea.innerHTML=`<p>${data.username_error}</p>`
+                } else {
+                    submitBtn.removeAttribute("disabled");
                 }
         });
     }

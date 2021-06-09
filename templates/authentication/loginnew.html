@@ -8,9 +8,9 @@
          <div class="card mt-5">
                 <div class="card-body">
                     <div class="card-title py-3">
-                     <h4>Account Register</h4>
+                     <h4>Account Login</h4>
                     </div>
-              <form action="{% url 'registernew' %}" method="post" class='form-horizontal'>
+              <form action="{% url 'loginnew' %}" method="post" class='form-horizontal'>
                   {% csrf_token %}
                   {% include 'partials/_messages.html' %}
                  <div class="form-group">
@@ -23,18 +23,6 @@
                              value="{{ fieldValues.username }}"
                      />
                  </div>
-                  <div class="invalid_feedback invalid-feedback" style="display:none"></div>
-                 <div class="form-group py-3">
-                     <input
-                             type="email"
-                             name="email"
-                             placeholder="Email"
-                             id="emailField"
-                             class="form-control form-control-sm margin-bottom"
-                             value="{{ fieldValues.email }}"
-                     />
-                 </div>
-                  <div class="invalid-feedback emailFeedBackArea" style="display:none"></div>
                  <div class="form-group">
                      <input
                              type="password"
@@ -46,7 +34,7 @@
                      <small class="float-right showPasswordToggle" style="float:right">SHOW</small>
                  </div>
                   <div class="row mt-4">
-                      <input type="submit" value="Register" class="btn btn-block btn-success submit-btn" >
+                      <input type="submit" value="Login" class="btn btn-block btn-success submit-btn" >
                   </div>
              </form>
              </div>
