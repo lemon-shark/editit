@@ -2,5 +2,10 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/centos@206.12.122.60" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/centos@206.12.122.60/ooop" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/centos@206.12.122.60/ooop/centos@206.12.122.60" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/centos@206.12.122.60/ooop/centos@206.12.122.60/ooop" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/centos@206.12.122.60/ooop/centos@206.12.122.60/ooop/centos@206.12.122.60" vcs="Git" />
   </component>
 </project>
