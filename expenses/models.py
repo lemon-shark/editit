@@ -8,7 +8,7 @@ class Expense(models.Model):
     date = models.DateField(default=now)
     description = models.TextField()
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    expenditure = models.CharField(max_length=266)
+    category = models.CharField(max_length=266)
     kind = models.BooleanField(default=False)
 
     def __str__(self):
