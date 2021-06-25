@@ -1,63 +1,20 @@
-{#{% extends 'base.html' %}#}
-{#{% block content %}#}
-{#<div class="container">#}
-{#{% include 'partials/_messages.html' %}#}
-{#<h2>Expense Lise</h2>#}
-{#<ul class="list-group">#}
-{#    <li class="list-group-item">Bought Beer</li>#}
-{#    <li class="list-group-item">Bought Beer</li>#}
-{#    <li class="list-group-item">Bought Beer</li>#}
-{#    <li class="list-group-item">Bought Beer</li>#}
-{#</ul>#}
-{#</div>#}
-{#{% endblock %}#}
-{% extends 'base_auth.html' %}
-{% load static %}
+{% extends 'base.html' %}
 {% block content %}
- <div class="row">
-     <div class="col-md-4"></div>
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-md-10">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">Expenses</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Expenses</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="col-md-2">
+      <a href="{% url 'add-expenses' %}" class="btn btn-primary">Add Expenses</a>
+    </div>
+  </div>
+</div>
 
-     <div class="col-md-4">
-         <div class="card mt-5">
-                <div class="card-body">
-                    <div class="card-title py-3">
-                     <h4>Account Login</h4>
-                    </div>
-              <form action="{% url 'loginnew' %}" method="post" class='form-horizontal'>
-                  {% csrf_token %}
-                  {% include 'partials/_messages.html' %}
-                 <div class="form-group py-3">
-                     <input
-                             type="text"
-                             name="username"
-                             placeholder="Username"
-                             id="usernameField"
-                             class="form-control form-control-sm"
-                             value="{{ fieldValues.username }}"
-                     />
-                 </div>
-                 <div class="form-group">
-                     <input
-                             type="password"
-                             name="password"
-                             placeholder="Password"
-                             id="passwordField"
-                             class="form-control form-control-sm margin-bottom"
-                     />
-                     <small class="float-right showPasswordToggle" style="float:right">SHOW</small>
-                 </div>
-                  <div class="col mt-4 text-center">
-                      <input type="submit" value="Login" class="btn btn-block btn-primary submit-btn" >
-                  </div>
-             </form>
-             <div class="container" >
-             <sapn class="text-lead lead" style="font-size: small">Don't have an account?&nbsp;</sapn><a href="{% url 'registernew' %}">Register</a>
-             <sapn class="text-lead lead" style="font-size: small">Forgot password?&nbsp;</sapn><a href="{% url 'request-password' %}">Reset it</a>
-             </div>
-             </div>
-            </div>
-         </div>
-     <div class="col-md-4"></div>
- </div>
- <script src="{% static 'js/register.js' %}"></script>
+    {% include 'partials/_messages.html' %}
 {% endblock %}
