@@ -23,4 +23,5 @@ urlpatterns = [
     url('authentication/', include('authentication.urls')),
     url('admin/', admin.site.urls),
     url('', include("users.urls")),
+    url('', include('demographic.urls')),
 ]
