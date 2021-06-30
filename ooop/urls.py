@@ -27,3 +27,4 @@ urlpatterns = [
     url('', include("users.urls")),
     url('', include('demographic.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
