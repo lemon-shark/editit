@@ -12,6 +12,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .utils import token_generator
 from django.contrib import auth
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 class UsernameValidationView(View):
@@ -64,8 +65,8 @@ class RegistrationView(View):
                 user.set_password(password)
                 user.is_active = False
                 user.save()
-                email_subject = "Activate your account"
 
+                email_subject = "Activate your account"
                 uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
                 domain = get_current_site(request).domain
                 link = reverse('activate', kwargs={'uidb64': uidb64, 'token': token_generator.make_token(user)})
@@ -137,8 +138,88 @@ class LogoutView(View):
         messages.success(request, 'You have been logged out')
         return redirect('loginnew')
 
+
+
 class RequestPasswordResetEmail(View):
     def get(self, request):
         return render(request, 'authentication/reset-password.html')
+
     def post(self, request):
+        email = request.POST['email']
+        context = {
+           'values': request.POST
+        }
+
+        if not validate_email(email):
+           message.error(request, 'Please supply a valid email')
+           return render(request, 'authentication/reset-password.html', context)
+
+        user = User.objects.filter(email=email)
+
+        if user.exists():
+            email_contents = {
+                'user': user[0],
+                'domain': get_current_site(request).domain,
+                'uid': urlsafe_base64_encode(force_bytes(user[0].pk)),
+                'token': PasswordResetTokenGenerator().make_token(user[0])
+            }
+            email_subject = "Password reset instructions"
+            domain = get_current_site(request).domain
+            link = reverse('reset-user-password', kwargs={'uidb64': email_contents['uid'], 'token': email_contents['token']})
+            reset_url = 'http://' + domain + link
+            email_body = "Hi there" + ',\nPlease use this link to reset your password\n' + reset_url
+            email = EmailMessage(
+                     email_subject,
+                     email_body,
+                     'noreply@semycolon.com',
+                     [email]
+                    )
+            email.send(fail_silently=False)
+
+        messages.success(request, 'We have sent you an email to reset your password')
         return render(request, 'authentication/reset-password.html')
+
+
+class CompletePasswordReset(View):
+    def get(self, request, uidb64, token):
+
+        context = {
+            'uidb64': uidb64,
+            'token': token
+        }
+        return render(request, 'authentication/set-new-password.html', context)
+    def post(self, request, uidb64, token):
+        context = {
+            'uidb64': uidb64,
+            'token': token
+        }
+
+        password = request.POST['password']
+        passwordnew = request.POST['passwordnew']
+
+        if password != passwordnew:
+           messages.error(request, 'Password do not match')
+           return render(request, 'authentication/set-new-password.html', context)
+
+        if len(password) < 6 :
+           messages.error(request, 'Password should be more than 6 characters')
+           return render(request, 'authentication/set-new-password.html', context)
+
+        try:
+            user_id = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=user_id)
+            user.set_password(password)
+            #user.password = password
+            user.save()
+
+            messages.success(request, 'Password reset successful, you can login with your new password')
+            return redirect('loginnew')
+        except Exception as identifier:
+            import pdb
+            pdb.set_trace()
+            messages.info(request, 'Something went wrong, try again')
+            return render(request, 'authentication/set-new-password.html', context)
+
+
+
+
