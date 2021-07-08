@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-)(l=r+_we_3nq-x#bk819*z+x7ui!iy-&-&3yg0$fb+8$wxr8-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ooop.ca','www.ooop.ca','outofourpockets.ca','www.outofourpockets.ca']
+ALLOWED_HOSTS = ['localhost','ooop.ca','www.ooop.ca','outofourpockets.ca','www.outofourpockets.ca']
 
 # Application definition
 
@@ -127,7 +127,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'ooop/static/')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
+MEDIA_ROOT = '/static/image/media'
+MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "dashboard"
@@ -147,11 +148,11 @@ MESSAGE_TAGS = {
 }
 
 # HTTPS settings
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-
-# HSTS settings
-SECURE_HSTS_SECONDS = 31536000 # 1 year
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+#
+# # HSTS settings
+# SECURE_HSTS_SECONDS = 31536000 # 1 year
+# SECURE_HSTS_PRELOAD = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
