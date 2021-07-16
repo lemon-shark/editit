@@ -21,14 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#with open(os.path.join(BASE_DIR, 'secret_key.txt')) as f:
+# with open(os.path.join(BASE_DIR, 'secret_key.txt')) as f:
 #    SECRET_KEY = f.read().strip()
 SECRET_KEY = 'django-insecure-)(l=r+_we_3nq-x#bk819*z+x7ui!iy-&-&3yg0$fb+8$wxr8-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','ooop.ca','www.ooop.ca','outofourpockets.ca','www.outofourpockets.ca']
+ALLOWED_HOSTS = ['localhost', 'ooop.ca', 'www.ooop.ca', 'outofourpockets.ca', 'www.outofourpockets.ca']
 
 # Application definition
 
@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
-    'expenses',
     'authentication',
+    'expenses',
     'demographic',
 ]
 
@@ -134,18 +134,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "dashboard"
 # EMAIL_HOST = "localhost"
 # EMAIL_PORT = 1025
-EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST = "mail.outofourpockets.ca"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "infonaturalhazards@gmail.com"
-EMAIL_HOST_PASSWORD = "1q2w3e4R?"
-DEFAULT_FROM_EMAIL = "info@ooop.com"
-#EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-#EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = "noreply@outofourpockets.ca"
+EMAIL_HOST_PASSWORD = "0N*b&h#a&+L)"
+DEFAULT_FROM_EMAIL = "noreply@outofourpockets.ca"
+# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+
+AUTH_USER_MODEL = 'authentication.Account'
 
 # HTTPS settings
 # SESSION_COOKIE_SECURE = True
@@ -156,3 +158,8 @@ MESSAGE_TAGS = {
 # SECURE_HSTS_SECONDS = 31536000 # 1 year
 # SECURE_HSTS_PRELOAD = True
 # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.RemoteUserBackend',
+        'django.contrib.auth.backends.ModelBackend',
+)

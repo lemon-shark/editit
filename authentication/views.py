@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 import json
 from django.http import JsonResponse
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from validate_email import validate_email
 from django.contrib import messages
 from django.core.mail import EmailMessage
@@ -13,6 +13,26 @@ from django.urls import reverse
 from .utils import token_generator
 from django.contrib import auth
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.auth import get_user_model
+
+try:
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+except ImportError:
+    from django.contrib.auth.models import User
+
+
+class FirstnameValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        first_name = data['first_name']
+
+        if not str(first_name).isalnum():
+            return JsonResponse({'first_name_error': 'First name should only contain alphanumeric characters'},
+                                status=400)
+        if User.objects.filter(first_name=first_name).exists():
+            return JsonResponse({'first_name': 'First name in use, please choose another one'}, status=409)
+        return JsonResponse({'first_name_valid': True})
 
 
 class UsernameValidationView(View):
@@ -139,7 +159,6 @@ class LogoutView(View):
         return redirect('loginnew')
 
 
-
 class RequestPasswordResetEmail(View):
     def get(self, request):
         return render(request, 'authentication/reset-password.html')
@@ -147,12 +166,12 @@ class RequestPasswordResetEmail(View):
     def post(self, request):
         email = request.POST['email']
         context = {
-           'values': request.POST
+            'values': request.POST
         }
 
         if not validate_email(email):
-           message.error(request, 'Please supply a valid email')
-           return render(request, 'authentication/reset-password.html', context)
+            message.error(request, 'Please supply a valid email')
+            return render(request, 'authentication/reset-password.html', context)
 
         user = User.objects.filter(email=email)
 
@@ -165,15 +184,16 @@ class RequestPasswordResetEmail(View):
             }
             email_subject = "Password reset instructions"
             domain = get_current_site(request).domain
-            link = reverse('reset-user-password', kwargs={'uidb64': email_contents['uid'], 'token': email_contents['token']})
+            link = reverse('reset-user-password',
+                           kwargs={'uidb64': email_contents['uid'], 'token': email_contents['token']})
             reset_url = 'http://' + domain + link
             email_body = "Hi there" + ',\nPlease use this link to reset your password\n' + reset_url
             email = EmailMessage(
-                     email_subject,
-                     email_body,
-                     'noreply@semycolon.com',
-                     [email]
-                    )
+                email_subject,
+                email_body,
+                'noreply@semycolon.com',
+                [email]
+            )
             email.send(fail_silently=False)
 
         messages.success(request, 'We have sent you an email to reset your password')
@@ -188,6 +208,7 @@ class CompletePasswordReset(View):
             'token': token
         }
         return render(request, 'authentication/set-new-password.html', context)
+
     def post(self, request, uidb64, token):
         context = {
             'uidb64': uidb64,
@@ -198,18 +219,18 @@ class CompletePasswordReset(View):
         passwordnew = request.POST['passwordnew']
 
         if password != passwordnew:
-           messages.error(request, 'Password do not match')
-           return render(request, 'authentication/set-new-password.html', context)
+            messages.error(request, 'Password do not match')
+            return render(request, 'authentication/set-new-password.html', context)
 
-        if len(password) < 6 :
-           messages.error(request, 'Password should be more than 6 characters')
-           return render(request, 'authentication/set-new-password.html', context)
+        if len(password) < 6:
+            messages.error(request, 'Password should be more than 6 characters')
+            return render(request, 'authentication/set-new-password.html', context)
 
         try:
             user_id = force_text(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=user_id)
             user.set_password(password)
-            #user.password = password
+            # user.password = password
             user.save()
 
             messages.success(request, 'Password reset successful, you can login with your new password')
@@ -219,7 +240,3 @@ class CompletePasswordReset(View):
             pdb.set_trace()
             messages.info(request, 'Something went wrong, try again')
             return render(request, 'authentication/set-new-password.html', context)
-
-
-
-
