@@ -17,24 +17,25 @@
                  <div class="form-group">
                      <input
                              type="text"
-                             name="first_name"
+                             name="firstname"
                              placeholder="First Name"
-                             id="first_nameField"
+                             id="firstnameField"
                              class="form-control form-control-sm margin-bottom"
-                             value="{{ fieldValues.first_name }}"
+                             value="{{ fieldValues.firstname }}"
                      />
                  </div>
-                  <div class="invalid_feedback invalid-feedback" style="display:none"></div>
+                  <div class="firstname_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group py-3">
                      <input
                              type="text"
-                             name="last_name"
+                             name="lastname"
                              placeholder="Last Name"
-                             id="last_nameField"
+                             id="lastnameField"
                              class="form-control form-control-sm margin-bottom"
-                             value="{{ fieldValues.last_name }}"
+                             value="{{ fieldValues.lastname }}"
                      />
                  </div>
+                  <div class="lastname_feedback invalid-feedback" style="display:none"></div>
                  <div class="form-group">
                      <input
                              type="text"
@@ -45,6 +46,7 @@
                              value="{{ fieldValues.school }}"
                      />
                  </div>
+                   <div class="school_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group py-3">
                      <input
                              type="text"
@@ -55,6 +57,7 @@
                              value="{{ fieldValues.postal }}"
                      />
                  </div>
+                  <div class="postal_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group">
                      <input
                              type="text"

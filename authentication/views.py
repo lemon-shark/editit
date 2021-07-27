@@ -14,9 +14,11 @@ from .utils import token_generator
 from django.contrib import auth
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import get_user_model
+import re
 
 try:
     from django.contrib.auth import get_user_model
+
     User = get_user_model()
 except ImportError:
     from django.contrib.auth.models import User
@@ -25,14 +27,47 @@ except ImportError:
 class FirstnameValidationView(View):
     def post(self, request):
         data = json.loads(request.body)
-        first_name = data['first_name']
+        first_name = data['firstname']
 
         if not str(first_name).isalnum():
-            return JsonResponse({'first_name_error': 'First name should only contain alphanumeric characters'},
+            return JsonResponse({'firstname_error': 'First name should only contain alphanumeric characters'},
                                 status=400)
-        if User.objects.filter(first_name=first_name).exists():
-            return JsonResponse({'first_name': 'First name in use, please choose another one'}, status=409)
-        return JsonResponse({'first_name_valid': True})
+        return JsonResponse({'firstname_valid': True})
+
+
+class LastnameValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        last_name = data['lastname']
+
+        if not str(last_name).isalnum():
+            return JsonResponse({'lastname_error': 'Last name should only contain alphanumeric characters'},
+                                status=400)
+        return JsonResponse({'lastname_valid': True})
+
+
+class SchoolValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        school = data['school']
+
+        if not str(school).isalnum():
+            return JsonResponse({'school_error': 'School/Facility name should only contain alphanumeric characters'},
+                                status=400)
+        return JsonResponse({'school_valid': True})
+
+
+class PostalValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        post_code = data['postal']
+        # Canadian postal codes can't contain the letters D, F, I, O, Q, or U, and cannot start with W or Z，
+        # We allow an optional space in the middle
+        if not re.match(r'[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] ?[0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]',
+                        post_code):
+            return JsonResponse({'postal_error': 'Invalid Canadian postal code'},
+                                status=400)
+        return JsonResponse({'postal_valid': True})
 
 
 class UsernameValidationView(View):

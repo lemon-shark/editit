@@ -14,7 +14,7 @@ class Expense(models.Model):
     kind = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.expenditure
+        return self.category
 
     class Meta:
         ordering: ['-date']
