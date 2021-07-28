@@ -3,10 +3,14 @@ const lastnameField = document.querySelector('#lastnameField');
 const schoolField = document.querySelector('#schoolField');
 const postalField = document.querySelector('#postalField');
 const usernameField = document.querySelector('#usernameField');
+const birthYearField = document.querySelector('#birthField');
+const yearField = document.querySelector('#yearField');
 const firstnamefeedbackArea= document.querySelector('.firstname_feedback');
 const lastnamefeedbackArea= document.querySelector('.lastname_feedback');
 const schoolfeedbackArea= document.querySelector('.school_feedback');
 const postalfeedbackArea= document.querySelector('.postal_feedback');
+const birthYearfeedbackArea= document.querySelector('.birth_feedback');
+const yearfeedbackArea= document.querySelector('.year_feedback');
 const feedbackArea= document.querySelector('.invalid_feedback');
 const emailField = document.querySelector('#emailField');
 const passwordField = document.querySelector('#passwordField');
@@ -178,6 +182,60 @@ postalField.addEventListener("keyup", (e) => {
                     postalField.classList.add("is-invalid");
                     postalfeedbackArea.style.display = "block";
                     postalfeedbackArea.innerHTML=`<p>${data.postal_error}</p>`
+                } else {
+                    submitBtn.removeAttribute("disabled");
+                }
+        });
+    }
+})
+
+
+birthYearField.addEventListener("keyup", (e) => {
+    const birthYearVal = e.target.value;
+
+    birthYearField.classList.remove("is-invalid");
+    birthYearfeedbackArea.style.display = "none";
+
+    if(birthYearVal.length >0 ) {
+        fetch("/authentication/validate-birth",{
+        body: JSON.stringify({ birth: birthYearVal}),
+        method: "POST",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data.birth_error);
+                if(data.birth_error) {
+                    submitBtn.disabled = true;
+                    birthYearField.classList.add("is-invalid");
+                    birthYearfeedbackArea.style.display = "block";
+                    birthYearfeedbackArea.innerHTML=`<p>${data.birth_error}</p>`
+                } else {
+                    submitBtn.removeAttribute("disabled");
+                }
+        });
+    }
+})
+
+
+yearField.addEventListener("keyup", (e) => {
+    const yearVal = e.target.value;
+
+    yearField.classList.remove("is-invalid");
+    yearfeedbackArea.style.display = "none";
+
+    if(yearVal.length >0 ) {
+        fetch("/authentication/validate-year",{
+        body: JSON.stringify({ year: yearVal}),
+        method: "POST",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data.year_error);
+                if(data.year_error) {
+                    submitBtn.disabled = true;
+                    yearField.classList.add("is-invalid");
+                    yearfeedbackArea.style.display = "block";
+                    yearfeedbackArea.innerHTML=`<p>${data.year_error}</p>`
                 } else {
                     submitBtn.removeAttribute("disabled");
                 }

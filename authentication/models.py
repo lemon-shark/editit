@@ -36,7 +36,6 @@ class MyAccountManager(BaseUserManager):
 
 
 class Account(AbstractBaseUser):
-
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
@@ -47,6 +46,12 @@ class Account(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
+
+    birth_year = models.IntegerField(max_length=30)
+    years_teaching = models.IntegerField(max_length=30)
+    school = models.CharField(max_length=255)
+    postal = models.CharField(max_length=30)
+    schoollevel = models.CharField(max_length=255)
 
     USERNAME_FIELD = 'username'
     # able to add required field here
@@ -68,3 +73,17 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return self.is_superuser
+
+
+class School(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Schoollevel(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name

@@ -70,6 +70,26 @@ class PostalValidationView(View):
         return JsonResponse({'postal_valid': True})
 
 
+class BirthYearValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        birth_year = data['birth']
+
+        if not re.match(r'\b(19[3456789][0-9]|200[0-3]|2003)\b', birth_year):
+            return JsonResponse({'birth_error': 'Birth year should between 1930 and 2003'}, status=400)
+        return JsonResponse({'birth_valid': True})
+
+
+class YearValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        year = data['year']
+
+        if not re.match(r'\b([1-9]|[1-7][0-9])\b', year):
+            return JsonResponse({'year_error': 'Years of experience should between 1 and 79'}, status=400)
+        return JsonResponse({'year_valid': True})
+
+
 class UsernameValidationView(View):
     def post(self, request):
         data = json.loads(request.body)
