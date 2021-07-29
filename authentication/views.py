@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 import json
 from django.http import JsonResponse
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from validate_email import validate_email
 from django.contrib import messages
 from django.core.mail import EmailMessage
@@ -13,6 +13,85 @@ from django.urls import reverse
 from .utils import token_generator
 from django.contrib import auth
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.auth import get_user_model
+import re
+# from django.contrib import admin
+# from django.contrib.auth.admin import UserAdmin
+#from .models import Account as User
+#
+# admin.site.register(Account, UserAdmin)
+#
+# try:
+#     from django.contrib.auth import get_user_model
+User = get_user_model()
+# except ImportError:
+#     from django.contrib.auth.models import User
+
+
+class FirstnameValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        first_name = data['firstname']
+
+        if not str(first_name).isalnum():
+            return JsonResponse({'firstname_error': 'First name should only contain alphanumeric characters'},
+                                status=400)
+        return JsonResponse({'firstname_valid': True})
+
+
+class LastnameValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        last_name = data['lastname']
+
+        if not str(last_name).isalnum():
+            return JsonResponse({'lastname_error': 'Last name should only contain alphanumeric characters'},
+                                status=400)
+        return JsonResponse({'lastname_valid': True})
+
+
+class SchoolValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        school = data['school']
+
+        if not str(school).isalnum():
+            return JsonResponse({'school_error': 'School/Facility name should only contain alphanumeric characters'},
+                                status=400)
+        return JsonResponse({'school_valid': True})
+
+
+class PostalValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        post_code = data['postal']
+        # Canadian postal codes can't contain the letters D, F, I, O, Q, or U, and cannot start with W or Z，
+        # We allow an optional space in the middle
+        if not re.match(r'[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] ?[0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]',
+                        post_code):
+            return JsonResponse({'postal_error': 'Invalid Canadian postal code'},
+                                status=400)
+        return JsonResponse({'postal_valid': True})
+
+
+class BirthYearValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        birth_year = data['birth']
+
+        if not re.match(r'\b(19[3456789][0-9]|200[0-3]|2003)\b', birth_year):
+            return JsonResponse({'birth_error': 'Birth year should between 1930 and 2003'}, status=400)
+        return JsonResponse({'birth_valid': True})
+
+
+class YearValidationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        year = data['year']
+
+        if not re.match(r'\b([1-9]|[1-7][0-9])\b', year):
+            return JsonResponse({'year_error': 'Years of experience should between 1 and 79'}, status=400)
+        return JsonResponse({'year_valid': True})
 
 
 class UsernameValidationView(View):
@@ -48,6 +127,13 @@ class RegistrationView(View):
         # messages.warning(request, "Success whatsapp warning")
         # messages.info(request, "Success whatsapp info")
         # messages.error(request, "Success whatsapp error")
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        birth_year = request.POST['birth']
+        year = request.POST['year']
+        school = request.POST['school']
+        postal = request.POST['postal']
+        level = request.POST['level']
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
@@ -55,33 +141,38 @@ class RegistrationView(View):
             'fieldValues': request.POST
         }
 
-        if not User.objects.filter(username=username).exists():
-            if not User.objects.filter(email=email).exists():
-                if len(password) < 6:
-                    messages.error(request, 'Password shall be more than 6 characters')
-                    return render(request, 'authentication/registernew.html', context)
+        if firstname and lastname and birth_year and year and school and postal and level and username and email and password:
+            if not User.objects.filter(username=username).exists():
+                if not User.objects.filter(email=email).exists():
+                    if len(password) < 6:
+                        messages.error(request, 'Password shall be more than 6 characters')
+                        return render(request, 'authentication/registernew.html', context)
 
-                user = User.objects.create_user(username=username, email=email)
-                user.set_password(password)
-                user.is_active = False
-                user.save()
+                    user = User.objects.create_user(username=username, email=email, firstname=firstname, lastname=lastname,
+                                                    birth_year=birth_year, year=year, school=school, postal=postal,
+                                                    level=level)
+                    user.set_password(password)
+                    user.is_active = False
+                    user.save()
 
-                email_subject = "Activate your account"
-                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-                domain = get_current_site(request).domain
-                link = reverse('activate', kwargs={'uidb64': uidb64, 'token': token_generator.make_token(user)})
-                activate_url = 'http://' + domain + link
-                email_body = "Hi " + user.username + ',\nPlease use this link to verify your account\n' + activate_url
-                email = EmailMessage(
-                    email_subject,
-                    email_body,
-                    'noreply@semycolon.com',
-                    [email]
-                )
-                email.send(fail_silently=False)
-                messages.success(request, 'Account successfully created')
-                return render(request, 'authentication/registernew.html')
+                    email_subject = "Activate your account"
+                    uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                    domain = get_current_site(request).domain
+                    link = reverse('activate', kwargs={'uidb64': uidb64, 'token': token_generator.make_token(user)})
+                    activate_url = 'http://' + domain + link
+                    email_body = "Hi " + user.username + ',\nPlease use this link to verify your account\n' + activate_url
+                    email = EmailMessage(
+                        email_subject,
+                        email_body,
+                        'noreply@semycolon.com',
+                        [email]
+                    )
+                    email.send(fail_silently=False)
+                    messages.success(request, 'Account successfully created')
+                    return render(request, 'authentication/registernew.html')
 
+            return render(request, 'authentication/registernew.html')
+        messages.error(request, 'Please fill all fields')
         return render(request, 'authentication/registernew.html')
 
 
@@ -139,7 +230,6 @@ class LogoutView(View):
         return redirect('loginnew')
 
 
-
 class RequestPasswordResetEmail(View):
     def get(self, request):
         return render(request, 'authentication/reset-password.html')
@@ -147,12 +237,12 @@ class RequestPasswordResetEmail(View):
     def post(self, request):
         email = request.POST['email']
         context = {
-           'values': request.POST
+            'values': request.POST
         }
 
         if not validate_email(email):
-           message.error(request, 'Please supply a valid email')
-           return render(request, 'authentication/reset-password.html', context)
+            message.error(request, 'Please supply a valid email')
+            return render(request, 'authentication/reset-password.html', context)
 
         user = User.objects.filter(email=email)
 
@@ -165,15 +255,16 @@ class RequestPasswordResetEmail(View):
             }
             email_subject = "Password reset instructions"
             domain = get_current_site(request).domain
-            link = reverse('reset-user-password', kwargs={'uidb64': email_contents['uid'], 'token': email_contents['token']})
+            link = reverse('reset-user-password',
+                           kwargs={'uidb64': email_contents['uid'], 'token': email_contents['token']})
             reset_url = 'http://' + domain + link
             email_body = "Hi there" + ',\nPlease use this link to reset your password\n' + reset_url
             email = EmailMessage(
-                     email_subject,
-                     email_body,
-                     'noreply@semycolon.com',
-                     [email]
-                    )
+                email_subject,
+                email_body,
+                'noreply@semycolon.com',
+                [email]
+            )
             email.send(fail_silently=False)
 
         messages.success(request, 'We have sent you an email to reset your password')
@@ -188,6 +279,7 @@ class CompletePasswordReset(View):
             'token': token
         }
         return render(request, 'authentication/set-new-password.html', context)
+
     def post(self, request, uidb64, token):
         context = {
             'uidb64': uidb64,
@@ -198,18 +290,18 @@ class CompletePasswordReset(View):
         passwordnew = request.POST['passwordnew']
 
         if password != passwordnew:
-           messages.error(request, 'Password do not match')
-           return render(request, 'authentication/set-new-password.html', context)
+            messages.error(request, 'Password do not match')
+            return render(request, 'authentication/set-new-password.html', context)
 
-        if len(password) < 6 :
-           messages.error(request, 'Password should be more than 6 characters')
-           return render(request, 'authentication/set-new-password.html', context)
+        if len(password) < 6:
+            messages.error(request, 'Password should be more than 6 characters')
+            return render(request, 'authentication/set-new-password.html', context)
 
         try:
             user_id = force_text(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=user_id)
             user.set_password(password)
-            #user.password = password
+            # user.password = password
             user.save()
 
             messages.success(request, 'Password reset successful, you can login with your new password')
@@ -219,7 +311,3 @@ class CompletePasswordReset(View):
             pdb.set_trace()
             messages.info(request, 'Something went wrong, try again')
             return render(request, 'authentication/set-new-password.html', context)
-
-
-
-
