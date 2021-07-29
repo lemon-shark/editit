@@ -17,13 +17,13 @@ from django.contrib.auth import get_user_model
 import re
 # from django.contrib import admin
 # from django.contrib.auth.admin import UserAdmin
-from .models import Account as User
+#from .models import Account as User
 #
 # admin.site.register(Account, UserAdmin)
 #
 # try:
 #     from django.contrib.auth import get_user_model
-#User = get_user_model()
+User = get_user_model()
 # except ImportError:
 #     from django.contrib.auth.models import User
 
@@ -141,35 +141,38 @@ class RegistrationView(View):
             'fieldValues': request.POST
         }
 
-        if not User.objects.filter(username=username).exists():
-            if not User.objects.filter(email=email).exists():
-                if len(password) < 6:
-                    messages.error(request, 'Password shall be more than 6 characters')
-                    return render(request, 'authentication/registernew.html', context)
+        if firstname and lastname and birth_year and year and school and postal and level and username and email and password:
+            if not User.objects.filter(username=username).exists():
+                if not User.objects.filter(email=email).exists():
+                    if len(password) < 6:
+                        messages.error(request, 'Password shall be more than 6 characters')
+                        return render(request, 'authentication/registernew.html', context)
 
-                user = User.objects.create_user(username=username, email=email, firstname=firstname, lastname=lastname,
-                                                birth_year=birth_year, year=year, school=school, postal=postal,
-                                                level=level)
-                user.set_password(password)
-                user.is_active = False
-                user.save()
+                    user = User.objects.create_user(username=username, email=email, firstname=firstname, lastname=lastname,
+                                                    birth_year=birth_year, year=year, school=school, postal=postal,
+                                                    level=level)
+                    user.set_password(password)
+                    user.is_active = False
+                    user.save()
 
-                email_subject = "Activate your account"
-                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-                domain = get_current_site(request).domain
-                link = reverse('activate', kwargs={'uidb64': uidb64, 'token': token_generator.make_token(user)})
-                activate_url = 'http://' + domain + link
-                email_body = "Hi " + user.username + ',\nPlease use this link to verify your account\n' + activate_url
-                email = EmailMessage(
-                    email_subject,
-                    email_body,
-                    'noreply@semycolon.com',
-                    [email]
-                )
-                email.send(fail_silently=False)
-                messages.success(request, 'Account successfully created')
-                return render(request, 'authentication/registernew.html')
+                    email_subject = "Activate your account"
+                    uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                    domain = get_current_site(request).domain
+                    link = reverse('activate', kwargs={'uidb64': uidb64, 'token': token_generator.make_token(user)})
+                    activate_url = 'http://' + domain + link
+                    email_body = "Hi " + user.username + ',\nPlease use this link to verify your account\n' + activate_url
+                    email = EmailMessage(
+                        email_subject,
+                        email_body,
+                        'noreply@semycolon.com',
+                        [email]
+                    )
+                    email.send(fail_silently=False)
+                    messages.success(request, 'Account successfully created')
+                    return render(request, 'authentication/registernew.html')
 
+            return render(request, 'authentication/registernew.html')
+        messages.error(request, 'Please fill all fields')
         return render(request, 'authentication/registernew.html')
 
 
