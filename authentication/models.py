@@ -4,8 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 class MyAccountManager(BaseUserManager):
     # must add required field here
-
-    def create_user(self, email, username, password=None):
+    def create_user(self, email, username, firstname, lastname, birth_year, year, school, postal, level, password=None):
         if not email:
             raise ValueError("Users must have an email address")
         if not username:
@@ -13,7 +12,14 @@ class MyAccountManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
-            username=username
+            username=username,
+            firstname=firstname,
+            lastname=lastname,
+            birth_year=birth_year,
+            year=year,
+            school=school,
+            postal=postal,
+            level=level
         )
 
         user.set_password(password)
@@ -24,7 +30,14 @@ class MyAccountManager(BaseUserManager):
         user = self.create_user(
             email=self.normalize_email(email),
             username=username,
-            password=password
+            password=password,
+            firstname=firstname,
+            lastname=lastname,
+            birth_year=birth_year,
+            year=year,
+            school=school,
+            postal=postal,
+            level=level
         )
         user.is_admin = True
         user.is_staff = True
@@ -44,14 +57,14 @@ class Account(AbstractBaseUser):
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    firstname = models.CharField(max_length=30, default='fristname')
+    lastname = models.CharField(max_length=30, default='lastname')
 
-    birth_year = models.IntegerField(max_length=30)
-    years_teaching = models.IntegerField(max_length=30)
-    school = models.CharField(max_length=255)
-    postal = models.CharField(max_length=30)
-    schoollevel = models.CharField(max_length=255)
+    birth_year = models.CharField(max_length=30, default='1930')
+    year = models.CharField(max_length=30, default='79')
+    school = models.CharField(max_length=255, default='default')
+    postal = models.CharField(max_length=30, default='V5A 1S6')
+    level = models.CharField(max_length=255, default='Other')
 
     USERNAME_FIELD = 'username'
     # able to add required field here

@@ -15,13 +15,17 @@ from django.contrib import auth
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import get_user_model
 import re
-
-try:
-    from django.contrib.auth import get_user_model
-
-    User = get_user_model()
-except ImportError:
-    from django.contrib.auth.models import User
+# from django.contrib import admin
+# from django.contrib.auth.admin import UserAdmin
+from .models import Account as User
+#
+# admin.site.register(Account, UserAdmin)
+#
+# try:
+#     from django.contrib.auth import get_user_model
+#User = get_user_model()
+# except ImportError:
+#     from django.contrib.auth.models import User
 
 
 class FirstnameValidationView(View):
@@ -123,6 +127,13 @@ class RegistrationView(View):
         # messages.warning(request, "Success whatsapp warning")
         # messages.info(request, "Success whatsapp info")
         # messages.error(request, "Success whatsapp error")
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        birth_year = request.POST['birth']
+        year = request.POST['year']
+        school = request.POST['school']
+        postal = request.POST['postal']
+        level = request.POST['level']
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
@@ -136,7 +147,9 @@ class RegistrationView(View):
                     messages.error(request, 'Password shall be more than 6 characters')
                     return render(request, 'authentication/registernew.html', context)
 
-                user = User.objects.create_user(username=username, email=email)
+                user = User.objects.create_user(username=username, email=email, firstname=firstname, lastname=lastname,
+                                                birth_year=birth_year, year=year, school=school, postal=postal,
+                                                level=level)
                 user.set_password(password)
                 user.is_active = False
                 user.save()
