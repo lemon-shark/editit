@@ -26,7 +26,7 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password):
+    def create_superuser(self, email, username, firstname, lastname, birth_year, year, school, postal, level, password):
         user = self.create_user(
             email=self.normalize_email(email),
             username=username,
@@ -68,7 +68,7 @@ class Account(AbstractBaseUser):
 
     USERNAME_FIELD = 'username'
     # able to add required field here
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ['email', 'firstname', 'lastname', 'birth_year', 'year', 'school', 'postal', 'level']
 
     objects = MyAccountManager()
 
