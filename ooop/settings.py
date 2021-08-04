@@ -129,19 +129,13 @@ MEDIA_ROOT = '/static/image/media'
 MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "dashboard"
-# EMAIL_HOST = "localhost"
-# EMAIL_PORT = 1025
-EMAIL_HOST = "mail.outofourpockets.ca"
 EMAIL_PORT = 587
-# EMAIL_HOST_USER = "noreply@outofourpockets.ca"
-# EMAIL_HOST_PASSWORD = "0N*b&h#a&+L)"
-# DEFAULT_FROM_EMAIL = "noreply@outofourpockets.ca"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "infonaturalhazards@gmail.com"
-EMAIL_HOST_PASSWORD = "1q2w3e4R?"
-# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_HOST = "mail.outofourpockets.ca"
+EMAIL_HOST_USER = "noreply@outofourpockets.ca"
+EMAIL_HOST_PASSWORD = "0N*b&h#a&+L)"
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_HOST_USER = "infonaturalhazards@gmail.com"
+# EMAIL_HOST_PASSWORD = "1q2w3e4R?"
 EMAIL_USE_TLS = True
 
 MESSAGE_TAGS = {

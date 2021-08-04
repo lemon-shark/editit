@@ -123,13 +123,9 @@ class RegistrationView(View):
         return render(request, 'authentication/registernew.html')
 
     def post(self, request):
-        # messages.success(request, "Success whatsapp success")
-        # messages.warning(request, "Success whatsapp warning")
-        # messages.info(request, "Success whatsapp info")
-        # messages.error(request, "Success whatsapp error")
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
-        birth_year = request.POST['birth']
+        birth = request.POST['birth']
         year = request.POST['year']
         school = request.POST['school']
         postal = request.POST['postal']
@@ -141,7 +137,7 @@ class RegistrationView(View):
             'fieldValues': request.POST
         }
 
-        if firstname and lastname and birth_year and year and school and postal and level and username and email and password:
+        if firstname and lastname and birth and year and school and postal and level and username and email and password:
             if not User.objects.filter(username=username).exists():
                 if not User.objects.filter(email=email).exists():
                     if len(password) < 6:
@@ -149,7 +145,7 @@ class RegistrationView(View):
                         return render(request, 'authentication/registernew.html', context)
 
                     user = User.objects.create_user(username=username, email=email, firstname=firstname, lastname=lastname,
-                                                    birth_year=birth_year, year=year, school=school, postal=postal,
+                                                    birth_year=birth, year=year, school=school, postal=postal,
                                                     level=level)
                     user.set_password(password)
                     user.is_active = False
@@ -164,7 +160,7 @@ class RegistrationView(View):
                     email = EmailMessage(
                         email_subject,
                         email_body,
-                        'noreply@semycolon.com',
+                        'noreply@outofourpockets.ca',
                         [email]
                     )
                     email.send(fail_silently=False)
