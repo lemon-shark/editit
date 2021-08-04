@@ -130,9 +130,9 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_PORT = 587
+EMAIL_HOST = "mail.outofourpockets.ca"
 EMAIL_HOST_USER = "noreply@outofourpockets.ca"
 EMAIL_HOST_PASSWORD = "0N*b&h#a&+L)"
-DEFAULT_FROM_EMAIL = "noreply@outofourpockets.ca"
 # EMAIL_HOST = "smtp.gmail.com"
 # EMAIL_HOST_USER = "infonaturalhazards@gmail.com"
 # EMAIL_HOST_PASSWORD = "1q2w3e4R?"
