@@ -33,8 +33,8 @@ class FirstnameValidationView(View):
         data = json.loads(request.body)
         first_name = data['firstname']
 
-        if not str(first_name).isalnum():
-            return JsonResponse({'firstname_error': 'First name should only contain alphanumeric characters'},
+        if not str(first_name).isalpha():
+            return JsonResponse({'firstname_error': 'First name should only contain alphabet letters'},
                                 status=400)
         return JsonResponse({'firstname_valid': True})
 
@@ -44,8 +44,8 @@ class LastnameValidationView(View):
         data = json.loads(request.body)
         last_name = data['lastname']
 
-        if not str(last_name).isalnum():
-            return JsonResponse({'lastname_error': 'Last name should only contain alphanumeric characters'},
+        if not str(last_name).isalpha():
+            return JsonResponse({'lastname_error': 'Last name should only contain alphabet letters'},
                                 status=400)
         return JsonResponse({'lastname_valid': True})
 
