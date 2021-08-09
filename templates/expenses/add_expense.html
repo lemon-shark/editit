@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="container mt-4">
     <nav aria-label="breadcrumb">
@@ -15,10 +16,17 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="">Amount</label>
-                    <input type="number" class="form-control form-control-sm" name="amount" value="{{ values.amount }}">
+                    <input
+                            type="number"
+                            class="form-control form-control-sm"
+                            name="amount"
+                            id="amountField"
+                            value="{{ values.amount }}"
+                    />
                 </div>
+                <div class="invalid-feedback amount_feedback" style="display:none"></div>
                 <div class="form-group  mt-3">
-                    <label for="">Description</label>
+                    <label for="">Description(Optional)</label>
                     <input type="text" class="form-control form-control-sm" name="description" value="{{ values.description }}">
                 </div>
 {#                <div class="form-group mt-3">#}
@@ -38,13 +46,14 @@
                 </div>
                 <div class="form-group mt-3">
                     <label for="">Date of Expense</label>
-                    <input type="date" class="form-control form-control-sm" name="expense_date">
+                    <input type="date" class="form-control form-control-sm" name="expense_date" id="today">
                 </div>
                 <div class="col mt-3 text-center">
-                    <input type="submit" value="Submit" class="btn btn-primary btn-primary-sm">
+                    <input type="submit" value="Submit" class="btn btn-primary btn-primary-sm submit-btn">
                 </div>
             </form>
         </div>
     </div>
 </div>
+    <script src="{% static 'js/expense.js' %}"></script>
 {% endblock %}

@@ -7,7 +7,7 @@ from django.conf import settings
 class Expense(models.Model):
     amount = models.FloatField()
     date = models.DateField(default=now)
-    description = models.TextField()
+    description = models.TextField(default="Null")
     #     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
     owner = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.CharField(max_length=266)

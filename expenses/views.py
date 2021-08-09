@@ -5,6 +5,9 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 import datetime
 import re
+from django.views import View
+import json
+from django.http import JsonResponse
 
 
 @login_required(login_url='/authentication/loginnew')
@@ -47,8 +50,8 @@ def add_expense(request):
             messages.error(request, 'Please enter a positive amount')
             return render(request, 'expenses/add_expense.html', context)
 
-        if not description:
-            messages.error(request, 'Description is required')
+        if not date:
+            messages.error(request, 'Date is required')
             return render(request, 'expenses/add_expense.html', context)
 
         Expense.objects.create(owner=request.user, amount=amount, date=date, category=category, description=description)
@@ -104,7 +107,7 @@ def delete_expense(request, id):
 def expense_category_summary(request):
     today = datetime.date.today()
     six_months_ago = today - datetime.timedelta(days=30 * 6)
-    expenses = Expense.pbjects.filter(owner=request.user, data__gte=six_months_ago, date_lte=today)
+    expenses = Expense.objects.filter(owner=request.user, date__gte=six_months_ago, date__lte=today)
     finalrep = {}
 
     def get_category(expense):
@@ -118,7 +121,7 @@ def expense_category_summary(request):
             amount += item.amount
         return amount
 
-    category_list = list(set(map(get_category(), expenses)))
+    category_list = list(set(map(get_category, expenses)))
 
     for x in expenses:
         for y in category_list:
@@ -128,3 +131,14 @@ def expense_category_summary(request):
 
 def stats_view(request):
     return render(request, 'expenses/stats.html')
+
+
+class AmountValidationView(View):
+
+    def post(self, request):
+        data = json.loads(request.body)
+        amount = data['amount']
+
+        if not re.match(r'^[1-9]\d*$', amount):
+            return JsonResponse({'amount_error': 'Please enter a positive number for amount'}, status=400)
+        return JsonResponse({'amount_valid': True})

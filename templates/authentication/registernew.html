@@ -15,14 +15,14 @@
                   {% include 'partials/_messages.html' %}
 
                  <div class="form-group">
-                     <input
-                             type="text"
-                             name="firstname"
-                             placeholder="First Name"
-                             id="firstnameField"
-                             class="form-control form-control-sm margin-bottom"
-                             value="{{ fieldValues.firstname }}"
-                     />
+                         <input
+                                 type="text"
+                                 name="firstname"
+                                 placeholder="First Name"
+                                 id="firstnameField"
+                                 class="form-control form-control-sm margin-bottom"
+                                 value="{{ fieldValues.firstname }}"
+                         />
                  </div>
                   <div class="firstname_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group py-3">
@@ -37,58 +37,76 @@
                  </div>
                   <div class="lastname_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group">
-                     <input
-                             type="text"
-                             name="birth"
-                             placeholder="Birth Year"
-                             id="birthField"
-                             class="form-control form-control-sm margin-bottom"
-                             value="{{ fieldValues.birth }}"
-                     />
+                      <div data-tip="Why this field is needed?">
+                         <input
+                                 type="text"
+                                 name="birth"
+                                 placeholder="Birth Year"
+                                 id="birthField"
+                                 class="form-control form-control-sm margin-bottom"
+                                 value="{{ fieldValues.birth }}"
+                         />
+                      </div>
                  </div>
                    <div class="birth_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group py-3">
-                     <input
-                             type="text"
-                             name="year"
-                             placeholder="Years Experience"
-                             id="yearField"
-                             class="form-control form-control-sm margin-bottom"
-                             value="{{ fieldValues.year }}"
-                     />
+                       <div data-tip="Why this field is needed?">
+                         <input
+                                 type="text"
+                                 name="year"
+                                 placeholder="Years Experience"
+                                 id="yearField"
+                                 class="form-control form-control-sm margin-bottom"
+                                 value="{{ fieldValues.year }}"
+                         />
+                       </div>
                  </div>
                   <div class="year_feedback invalid-feedback" style="display:none"></div>
                  <div class="form-group">
-                     <input
-                             type="text"
-                             name="school"
-                             placeholder="School/Facility Name"
-                             id="schoolField"
-                             class="form-control form-control-sm margin-bottom"
-                             value="{{ fieldValues.school }}"
-                     />
+{#                     <input#}
+{#                             type="text"#}
+{#                             name="school"#}
+{#                             placeholder="School/Facility Name"#}
+{#                             id="schoolField"#}
+{#                             class="form-control form-control-sm margin-bottom"#}
+{#                             value="{{ fieldValues.school }}"#}
+{#                     />#}
+                     <label for="">School/Facility Name:</label>
+                     <select name="school">
+                        {% for school in schools %}
+                            <option name="school" value="{{ school.name }}">{{ school.name }}</option>
+                        {% endfor %}
+                    </select>
                  </div>
                    <div class="school_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group py-3">
-                     <input
-                             type="text"
-                             name="postal"
-                             placeholder="School Postal Code"
-                             id="postalField"
-                             class="form-control form-control-sm margin-bottom"
-                             value="{{ fieldValues.postal }}"
-                     />
+                       <div data-tip="Why this field is needed?">
+                         <input
+                                 type="text"
+                                 name="postal"
+                                 placeholder="School Postal Code"
+                                 id="postalField"
+                                 class="form-control form-control-sm margin-bottom"
+                                 value="{{ fieldValues.postal }}"
+                         />
+                       </div>
                  </div>
                   <div class="postal_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group">
-                     <input
-                             type="text"
-                             name="level"
-                             placeholder="School Level"
-                             id="levelField"
-                             class="form-control form-control-sm margin-bottom"
-                             value="{{ fieldValues.level }}"
-                     />
+{#                     <input#}
+{#                             type="text"#}
+{#                             name="level"#}
+{#                             placeholder="School Level"#}
+{#                             id="levelField"#}
+{#                             class="form-control form-control-sm margin-bottom"#}
+{#                             value="{{ fieldValues.level }}"#}
+{#                     />#}
+                      <label for="">School Level:</label>
+                     <select name="level">
+                        {% for level in levels %}
+                            <option name="level" value="{{ level.name }}">{{ schoollevel.name }}</option>
+                        {% endfor %}
+                    </select>
                  </div>
                  <div class="form-group py-3">
                      <input
@@ -135,5 +153,50 @@
      <div class="col-md-4"></div>
  </div>
  </div>
+    <style>
+        [data-tip] {
+            position:relative;
+        }
+        [data-tip]:before {
+            content:'';
+            /* hides the tooltip when not hovered */
+            display:none;
+            content:'';
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid ghostwhite;
+            position:absolute;
+            top:30px;
+            left:35px;
+            z-index:8;
+            font-size:0;
+            line-height:0;
+            width:0;
+            height:0;
+        }
+        [data-tip]:after {
+            display:none;
+            content:attr(data-tip);
+            position:absolute;
+            top:35px;
+            left:0px;
+            padding:5px 8px;
+            background:ghostwhite;
+            color:black;
+            z-index:9;
+            font-size: 0.75em;
+            height:30px;
+            line-height:18px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            white-space:nowrap;
+            word-wrap:normal;
+        }
+        [data-tip]:hover:before,
+        [data-tip]:hover:after {
+            display:block;
+        }
+    </style>
  <script src="{% static 'js/register.js' %}"></script>
 {% endblock %}
