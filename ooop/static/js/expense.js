@@ -29,3 +29,8 @@ amountField.addEventListener("keyup", (e) => {
 })
 
 document.querySelector("#today").valueAsDate = new Date();
+
+function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
