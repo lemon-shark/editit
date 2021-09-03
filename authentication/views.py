@@ -15,6 +15,7 @@ from django.contrib import auth
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import get_user_model
 import re
+from .models import School, Level
 # from django.contrib import admin
 # from django.contrib.auth.admin import UserAdmin
 #from .models import Account as User
@@ -50,15 +51,15 @@ class LastnameValidationView(View):
         return JsonResponse({'lastname_valid': True})
 
 
-class SchoolValidationView(View):
-    def post(self, request):
-        data = json.loads(request.body)
-        school = data['school']
-
-        if not str(school).isalnum():
-            return JsonResponse({'school_error': 'School/Facility name should only contain alphanumeric characters'},
-                                status=400)
-        return JsonResponse({'school_valid': True})
+# class SchoolValidationView(View):
+#     def post(self, request):
+#         data = json.loads(request.body)
+#         school = data['school']
+#
+#         if not str(school).isalnum():
+#             return JsonResponse({'school_error': 'School/Facility name should only contain alphanumeric characters'},
+#                                 status=400)
+#         return JsonResponse({'school_valid': True})
 
 
 class PostalValidationView(View):
@@ -119,10 +120,14 @@ class EmailValidationView(View):
 
 
 class RegistrationView(View):
+
     def get(self, request):
         return render(request, 'authentication/registernew.html')
 
     def post(self, request):
+        schools = School.objects.all()
+        levels = Level.objects.all()
+
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
         birth = request.POST['birth']
@@ -134,6 +139,8 @@ class RegistrationView(View):
         email = request.POST['email']
         password = request.POST['password']
         context = {
+            'schools': schools,
+            'levels': levels,
             'fieldValues': request.POST
         }
 
@@ -165,11 +172,11 @@ class RegistrationView(View):
                     )
                     email.send(fail_silently=False)
                     messages.success(request, 'Account successfully created')
-                    return render(request, 'authentication/registernew.html')
+                    return render(request, 'authentication/registernew.html', context)
 
-            return render(request, 'authentication/registernew.html')
+            return render(request, 'authentication/registernew.html', context)
         messages.error(request, 'Please fill all fields')
-        return render(request, 'authentication/registernew.html')
+        return render(request, 'authentication/registernew.html', context)
 
 
 class VerificationView(View):

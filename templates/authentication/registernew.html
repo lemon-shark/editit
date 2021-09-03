@@ -72,7 +72,7 @@
 {#                             value="{{ fieldValues.school }}"#}
 {#                     />#}
                      <label for="">School/Facility Name:</label>
-                     <select name="school">
+                     <select name="school" class="form-control form-control-sm">
                         {% for school in schools %}
                             <option name="school" value="{{ school.name }}">{{ school.name }}</option>
                         {% endfor %}
@@ -102,9 +102,9 @@
 {#                             value="{{ fieldValues.level }}"#}
 {#                     />#}
                       <label for="">School Level:</label>
-                     <select name="schoollevel">
-                        {% for schoollevel in schoollevels %}
-                            <option name="schoollevel" value="{{ schoollevel.name }}">{{ schoollevel.name }}</option>
+                     <select name="level" class="form-control form-control-sm">
+                        {% for level in levels %}
+                            <option name="level" value="{{ level.name }}">{{ level.name }}</option>
                         {% endfor %}
                     </select>
                  </div>
@@ -140,7 +140,7 @@
                      />
                      <small class="float-right showPasswordToggle" style="float:right">SHOW</small>
                  </div>
-                  I have read and agree to the<a class="button" href="#popup1"><i>Terms and Conditions</i></a>
+                  I have read and agree to the<a class="button" href="#popup1"><i>Consent Form</i></a>
                  <div id="popup1" class="overlay">
                     <div class="popup">
                         <h2>Consent Form</h2>
