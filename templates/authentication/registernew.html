@@ -76,9 +76,10 @@
                         {% for school in schools %}
                             <option name="school" value="{{ school.name }}">{{ school.name }}</option>
                         {% endfor %}
+                         <option>1</option>
+                         <option>2</option>
                     </select>
                  </div>
-                   <div class="school_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group py-3">
                        <div data-tip="Why this field is needed?">
                          <input
@@ -93,14 +94,6 @@
                  </div>
                   <div class="postal_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group">
-{#                     <input#}
-{#                             type="text"#}
-{#                             name="level"#}
-{#                             placeholder="School Level"#}
-{#                             id="levelField"#}
-{#                             class="form-control form-control-sm margin-bottom"#}
-{#                             value="{{ fieldValues.level }}"#}
-{#                     />#}
                       <label for="">School Level:</label>
                      <select name="level" class="form-control form-control-sm">
                         {% for level in levels %}
