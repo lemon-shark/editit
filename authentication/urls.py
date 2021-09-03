@@ -1,6 +1,6 @@
 from .views import RegistrationView, UsernameValidationView, EmailValidationView, VerificationView, LoginView, \
     LogoutView, RequestPasswordResetEmail, CompletePasswordReset, FirstnameValidationView, LastnameValidationView, \
-    SchoolValidationView, PostalValidationView, BirthYearValidationView, YearValidationView
+    PostalValidationView, BirthYearValidationView, YearValidationView
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 
@@ -10,7 +10,7 @@ urlpatterns = [
     path('logoutnew', LogoutView.as_view(), name='logoutnew'),
     path('validate-firstname', csrf_exempt(FirstnameValidationView.as_view()), name='validate-firstname'),
     path('validate-lastname', csrf_exempt(LastnameValidationView.as_view()), name='validate-lastname'),
-    path('validate-school', csrf_exempt(SchoolValidationView.as_view()), name='validate-school'),
+    # path('validate-school', csrf_exempt(SchoolValidationView.as_view()), name='validate-school'),
     path('validate-postal', csrf_exempt(PostalValidationView.as_view()), name='validate-postal'),
     path('validate-birth', csrf_exempt(BirthYearValidationView.as_view()), name='validate-birth'),
     path('validate-year', csrf_exempt(YearValidationView.as_view()), name='validate-year'),

@@ -72,9 +72,6 @@ class Account(AbstractBaseUser):
 
     objects = MyAccountManager()
 
-    def __str__(self):
-        return self.username
-
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
@@ -87,16 +84,34 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return self.is_superuser
 
+    def __str__(self):
+        return self.username
+
+    def __str__(self):
+        return self.school
+
+    def __str__(self):
+        return self.level
+
+    class Meta:
+        ordering = ['-date_joined']
+
 
 class School(models.Model):
     name = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name_plural = 'Schools'
 
     def __str__(self):
         return self.name
 
 
-class Schoollevel(models.Model):
+class Level(models.Model):
     name = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name_plural = 'Levels'
 
     def __str__(self):
         return self.name
