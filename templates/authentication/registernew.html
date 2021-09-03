@@ -10,7 +10,7 @@
                     <div class="card-title py-3">
                      <h4>Account Register</h4>
                     </div>
-              <form action="{% url 'registernew' %}" method="post" class='form-horizontal'>
+              <form action="{% url 'registernew' %}" method="post" class='form-horizontal' onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('Please indicate that you have read and agree to the Terms and Conditions'); return false; }">
                   {% csrf_token %}
                   {% include 'partials/_messages.html' %}
 
@@ -102,9 +102,9 @@
 {#                             value="{{ fieldValues.level }}"#}
 {#                     />#}
                       <label for="">School Level:</label>
-                     <select name="level">
-                        {% for level in levels %}
-                            <option name="level" value="{{ level.name }}">{{ schoollevel.name }}</option>
+                     <select name="schoollevel">
+                        {% for schoollevel in schoollevels %}
+                            <option name="schoollevel" value="{{ schoollevel.name }}">{{ schoollevel.name }}</option>
                         {% endfor %}
                     </select>
                  </div>
@@ -140,6 +140,43 @@
                      />
                      <small class="float-right showPasswordToggle" style="float:right">SHOW</small>
                  </div>
+                  I have read and agree to the<a class="button" href="#popup1"><i>Terms and Conditions</i></a>
+                 <div id="popup1" class="overlay">
+                    <div class="popup">
+                        <h2>Consent Form</h2>
+                        <div class="content">
+                            <p>
+                            Thank you for responding to our invitation to participate in a research project intended to
+                                document the extent to which educators spend their own money to support students, families,
+                                and colleagues in their schools and classrooms. The research consists of a database where
+                                participants can keep a log of their personal spending over time. You are being asked to
+                                enter your spending and identify the category of item you are purchasing, to help us
+                                understand how much of their own money educators are spending and what type of items
+                                they purchase most (each expense can also be marked as in-kind). You are under no
+                                obligation to participate and are free to withdraw at any time without prejudice to
+                                pre-existing entitlements by simply not entering any data in the database. Further, you
+                                can delete your account and all submitted data through your user profile at any time.
+                                There are no perceived risks regarding participation in this research. Potential benefits
+                                include access to a complete copy of your spending data entered as part of this project.
+                                Note that because we do not gather or verify receipts, this data is for informational purposes
+                                only.<br><br>The results of this research will not be commercialized, and there are no real,
+                                potential or perceived conflicts of interest on the part of the researchers (Dan Laitsch
+                                and John Malcolmson), their institutions (SFU and the Institute for Public Education/BC),
+                                or the research sponsor (the Institute for Public Education/BC). Your participation in
+                                this project is anonymous—no personally identifiable information will be available to
+                                the researchers, and such data will only be stored on the project server in password
+                                protected encrypted files. Data will be analyzed and reported in the aggregate to avoid
+                                inadvertently identifying anyone through the use of demographic data. Results the research
+                                will be shared in research articles, policy papers, conferences, presentations, and other
+                                scholarly products.<br><br>To demonstrate your consent to participate in this study, please
+                                proceed to the registration page by clicking the “I consent" button below. Remember that
+                                you are under no obligation to participate in this project and are free to withdraw at
+                                any time. Thank you for your consideration.
+                            </p>
+                            <a class="close" href="#"><button type="button" class="btn btn-primary">I CONSENT</button></a>
+                        </div>
+                    </div>
+                </div>
                   <div class="col mt-4 text-center">
                       <input type="submit" value="Register" class="btn btn-block btn-primary submit-btn" >
                   </div>
@@ -196,6 +233,72 @@
         [data-tip]:hover:before,
         [data-tip]:hover:after {
             display:block;
+        }
+        .button {
+          font-size: 1em;
+          padding: 10px;
+          color: cornflowerblue;
+          {#border: 2px solid #06D85F;#}
+          {#border-radius: 20px/50px;#}
+          text-decoration: none;
+          cursor: pointer;
+          transition: all 0.3s ease-out;
+        }
+        .button:hover {
+          color: blue;
+        }
+
+        .overlay {
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: rgba(0, 0, 0, 0.7);
+          transition: opacity 500ms;
+          visibility: hidden;
+          opacity: 0;
+        }
+        .overlay:target {
+          visibility: visible;
+          opacity: 1;
+        }
+
+        .popup {
+          margin: 70px auto;
+          padding: 20px;
+          background: #fff;
+          border-radius: 5px;
+          width: 90%;
+          position: relative;
+          transition: all 5s ease-in-out;
+        }
+
+        .popup h2 {
+          margin-top: 0;
+          color: #333;
+          font-family: Tahoma, Arial, sans-serif;
+          text-align: center;
+        }
+        .popup .close {
+          transition: all 200ms;
+          font-size: 30px;
+          font-weight: bold;
+          text-decoration: none;
+          color: #333;
+        }
+        .popup .close:hover {
+          color: blue;
+        }
+        .popup .content {
+          max-height: 50%;
+          overflow: auto;
+        }
+
+        @media screen and (max-width: 700px){
+          .popup{
+            width: 90%;
+          }
         }
     </style>
  <script src="{% static 'js/register.js' %}"></script>
