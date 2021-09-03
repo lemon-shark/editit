@@ -120,9 +120,17 @@ class EmailValidationView(View):
 
 
 class RegistrationView(View):
+    schools = School.objects.all()
+    levels = Level.objects.all()
 
     def get(self, request):
-        return render(request, 'authentication/registernew.html')
+        schools = School.objects.all()
+        levels = Level.objects.all()
+        context = {
+            'schools': schools,
+            'levels': levels,
+        }
+        return render(request, 'authentication/registernew.html', context)
 
     def post(self, request):
         schools = School.objects.all()
@@ -151,9 +159,9 @@ class RegistrationView(View):
                         messages.error(request, 'Password shall be more than 6 characters')
                         return render(request, 'authentication/registernew.html', context)
 
-                    user = User.objects.create_user(username=username, email=email, firstname=firstname, lastname=lastname,
-                                                    birth_year=birth, year=year, school=school, postal=postal,
-                                                    level=level)
+                    user = User.objects.create_user(username=username, email=email, firstname=firstname,
+                                                    lastname=lastname, birth_year=birth, year=year, school=school,
+                                                    postal=postal, level=level)
                     user.set_password(password)
                     user.is_active = False
                     user.save()
@@ -163,7 +171,8 @@ class RegistrationView(View):
                     domain = get_current_site(request).domain
                     link = reverse('activate', kwargs={'uidb64': uidb64, 'token': token_generator.make_token(user)})
                     activate_url = 'http://' + domain + link
-                    email_body = "Hi " + user.username + ',\nPlease use this link to verify your account\n' + activate_url
+                    email_body = "Hi " + user.username + ',\nPlease use this link to verify your account\n' + \
+                                 activate_url
                     email = EmailMessage(
                         email_subject,
                         email_body,
