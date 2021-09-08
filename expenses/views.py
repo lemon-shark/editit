@@ -12,6 +12,41 @@ from django.http import JsonResponse
 
 @login_required(login_url='/authentication/loginnew')
 def index(request):
+    categoties = Category.objects.all()
+    context = {
+        'categories': categoties,
+        'values': request.POST
+    }
+
+    if request.method == 'GET':
+        return render(request, 'expenses/add_expense.html', context)
+
+    if request.method == 'POST':
+        amount = request.POST['amount']
+        description = request.POST['description']
+        date = request.POST['expense_date']
+        category = request.POST['category']
+        # kind = request.POST['kind']
+
+        if not amount:
+            messages.error(request, 'Amount is required')
+            return render(request, 'expenses/add_expense.html', context)
+
+        if not re.match(r'^[1-9]\d*$', amount):
+            messages.error(request, 'Please enter a positive amount')
+            return render(request, 'expenses/add_expense.html', context)
+
+        if not date:
+            messages.error(request, 'Date is required')
+            return render(request, 'expenses/add_expense.html', context)
+
+        Expense.objects.create(owner=request.user, amount=amount, date=date, category=category, description=description)
+        # ,kind=kind)
+        messages.success(request, 'Expense saved successfully')
+        return redirect('my-expenses')
+
+
+def expense_my(request):
     categories = Category.objects.all()
     expenses = Expense.objects.filter(owner=request.user)
     paginator = Paginator(expenses, 5)
@@ -22,7 +57,7 @@ def index(request):
         'expenses': expenses,
         'page_obj': page_obj
     }
-    return render(request, 'expenses/index.html', context)
+    return render(request, 'expenses/my-expense.html', context)
 
 
 def add_expense(request):
