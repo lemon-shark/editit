@@ -15,7 +15,7 @@ amountField.addEventListener("keyup", (e) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data.amount_error);
+                // console.log(data.amount_error);
                 if(data.amount_error) {
                     submitBtn.disabled = true;
                     amountField.classList.add("is-invalid");
@@ -23,6 +23,14 @@ amountField.addEventListener("keyup", (e) => {
                     amountFeedbackArea.innerHTML=`<p>${data.amount_error}</p>`
                 } else {
                     submitBtn.removeAttribute("disabled");
+                }
+
+                if(data.amount_info) {
+                    submitBtn.removeAttribute("disabled");
+                    // amountField.classList.add("is-invalid");
+                    amountFeedbackArea.style.display = "block";
+                    amountFeedbackArea.innerHTML=`<p>${data.amount_info}</p>`
+
                 }
         });
     }

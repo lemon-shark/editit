@@ -10,7 +10,7 @@
                     <div class="card-title py-3">
                      <h4>Account Register</h4>
                     </div>
-              <form action="{% url 'registernew' %}" method="post" class='form-horizontal' onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('Please indicate that you have read and agree to the Terms and Conditions'); return false; }">
+              <form action="{% url 'registernew' %}" method="post" class='form-horizontal' onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('Please indicate that you have read and agree to the Consent Form'); return false; }">
                   {% csrf_token %}
                   {% include 'partials/_messages.html' %}
 
@@ -37,7 +37,9 @@
                  </div>
                   <div class="lastname_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group">
-                      <div data-tip="Why this field is needed?">
+                      <div data-tip="We collect this information so that we can determine whether our sample of <br>
+                      educators is similar to the provincial population of educators, as well as to look at how age <br>
+                      interacts with spending.">
                          <input
                                  type="text"
                                  name="birth"
@@ -133,7 +135,7 @@
                      />
                      <small class="float-right showPasswordToggle" style="float:right">SHOW</small>
                  </div>
-                  I have read and agree to the<a class="button" href="#popup1"><i>Consent Form</i></a>
+                  <input type="checkbox" name="checkbox" value="check" id="agree" />I have read and agree to the<a class="button" href="#popup1"><i>Consent Form</i></a>
                  <div id="popup1" class="overlay">
                     <div class="popup">
                         <h2>Consent Form</h2>
