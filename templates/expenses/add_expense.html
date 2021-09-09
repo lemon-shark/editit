@@ -8,7 +8,7 @@
             <li class="breadcrumb-item active" aria-current="page">Add Expenses</li>
         </ol>
     </nav>
-    <div class="card">
+    <div class="card" style="width:42rem">
         <div class="card-body">
             <form action="{% url 'add-expenses' %}" method="post">
                 {% include 'partials/_messages.html' %}
@@ -24,9 +24,10 @@
                     />
                 </div>
                 <div class="invalid-feedback amount_feedback" style="display:none"></div>
+                <div class="invalid-feedback amount_feedback" style="display:none"></div>
                 <div class="form-group  mt-3">
                     <label for="">Expense Category:(see category definitions)</label>
-                    <select name="category" class="form-control form-control-sm" style="width:18rem">
+                    <select name="category" class="form-control form-control-sm">
                         {% for category in categories %}
                             <option name="category" value="{{ category.name }}">{{ category.name }}</option>
                         {% endfor %}
@@ -43,7 +44,7 @@
                 </div>
                 <div class="form-group mt-3">
                     <label for="">Date of Expense</label>
-                    <input type="date" name="expense_date" id="today" class="form-control form-control-sm" style="width:18rem">
+                    <input type="date" name="expense_date" id="today" class="form-control form-control-sm">
                 </div>
 {#                <div class="form-group mt-3">#}
 {#                    <input type="checkbox" id="inkind" name="inkind" value="true">#}
