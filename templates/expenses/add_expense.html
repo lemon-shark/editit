@@ -20,10 +20,11 @@
                             class="form-control form-control-sm"
                             name="amount"
                             id="amountField"
-                            value="{{ values.amount }}"
+                            value="{{ values.amount|floatformat:2 }}"
+                            step="any"
+                            min="1"
                     />
                 </div>
-                <div class="invalid-feedback amount_feedback" style="display:none"></div>
                 <div class="invalid-feedback amount_feedback" style="display:none"></div>
                 <div class="form-group  mt-3">
                     <label for="">Expense Category:(see category definitions)</label>

@@ -81,9 +81,9 @@ def add_expense(request):
             messages.error(request, 'Amount is required')
             return render(request, 'expenses/add_expense.html', context)
 
-        if not re.match(r'^[1-9]\d*$', amount):
-            messages.error(request, 'Please enter a positive amount')
-            return render(request, 'expenses/add_expense.html', context)
+        # if not re.match(r'^[1-9]\d*$', amount):
+        #     messages.error(request, 'Please enter a positive amount')
+        #     return render(request, 'expenses/add_expense.html', context)
 
         if not date:
             messages.error(request, 'Date is required')
@@ -174,12 +174,13 @@ class AmountValidationView(View):
         data = json.loads(request.body)
         amount = data['amount']
 
-        if not re.match(r'^[1-9]\d*$', amount):
-            return JsonResponse({'amount_error': 'Please enter a positive number for amount'}, status=400)
+        if not re.match(r'^\d+(\.\d{1,2})?$', amount):
+            return JsonResponse({'amount_error': 'please enter a positive whole Canadian dollar amount with a maximum '
+                                                 'of 2 digits'}, status=400)
         return JsonResponse({'amount_valid': True})
 
-        if float(amount) > 1000.0:
-            return JsonResponse({'amount_info': 'Please confirm the amount over $1000'}, status=200)
-        return JsonResponse({'amount_valid': True})
+        # if float(amount) > 1000.0:
+        #     return JsonResponse({'amount_info': 'Please confirm the amount over $1000'}, status=200)
+        # return JsonResponse({'amount_valid': True})
 
 
