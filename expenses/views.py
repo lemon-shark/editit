@@ -177,10 +177,10 @@ class AmountValidationView(View):
         if not re.match(r'^\d+(\.\d{1,2})?$', amount):
             return JsonResponse({'amount_error': 'please enter a positive whole Canadian dollar amount with a maximum '
                                                  'of 2 digits'}, status=400)
-        return JsonResponse({'amount_valid': True})
 
-        # if float(amount) > 1000.0:
-        #     return JsonResponse({'amount_info': 'Please confirm the amount over $1000'}, status=200)
-        # return JsonResponse({'amount_valid': True})
+        if float(amount) > 1000.0:
+            return JsonResponse({'amount_info': 'Please confirm the amount over $1000'}, status=200)
+
+        return JsonResponse({'amount_valid': True})
 
 
