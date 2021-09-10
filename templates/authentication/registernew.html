@@ -56,7 +56,7 @@
                          <input
                                  type="text"
                                  name="year"
-                                 placeholder="Years Experience"
+                                 placeholder="Total Years of Teaching Experience"
                                  id="yearField"
                                  class="form-control form-control-sm margin-bottom"
                                  value="{{ fieldValues.year }}"
@@ -73,7 +73,7 @@
 {#                             class="form-control form-control-sm margin-bottom"#}
 {#                             value="{{ fieldValues.school }}"#}
 {#                     />#}
-                     <label for="">School/Facility Name:</label>
+                     <label for="">School board / primary work location:</label>
                      <select name="school" class="form-control form-control-sm">
                         {% for school in schools %}
                             <option name="school" value="{{ school.name }}">{{ school.name }}</option>
