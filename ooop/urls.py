@@ -24,7 +24,5 @@ urlpatterns = [
     url('', include('expenses.urls')),
     url('authentication/', include('authentication.urls')),
     url('admin/', admin.site.urls),
-    url('contact/', include('contact.urls')),
-    url('account/', include('account.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += staticfiles_urlpatterns()
