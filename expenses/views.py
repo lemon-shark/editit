@@ -61,9 +61,9 @@ def expense_my(request):
 
 
 def add_expense(request):
-    categories = Category.objects.all()
+    categoties = Category.objects.all()
     context = {
-        'categories': categories,
+        'categories': categoties,
         'values': request.POST
     }
 
