@@ -184,3 +184,15 @@ class AmountValidationView(View):
         return JsonResponse({'amount_valid': True})
 
 
+class DescriptionValidationView(View):
+
+    def post(self, request):
+        data = json.loads(request.body)
+        desc = data['description']
+
+        if len(desc) > 149:
+            return JsonResponse({'desc_error': 'Description should no longer than 150 characters.'}, status=400)
+
+        return JsonResponse({'desc_valid': True})
+
+

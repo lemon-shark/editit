@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from django.views.decorators.csrf import csrf_exempt
-from .views import AmountValidationView
+from .views import AmountValidationView, DescriptionValidationView
 
 urlpatterns = [
     path('', views.index, name="expenses"),
@@ -11,5 +11,6 @@ urlpatterns = [
     path('expense-delete/<int:id>', views.delete_expense, name="expense-delete"),
     path('expense_category_summary', views.expense_category_summary, name='expense_category_summary'),
     path('validate-amount', csrf_exempt(AmountValidationView.as_view()), name='validate-amount'),
+    path('validate-desc', csrf_exempt(DescriptionValidationView.as_view()), name='validate-desc'),
     path('stats', views.stats_view, name='stats')
 ]
