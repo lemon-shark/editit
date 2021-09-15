@@ -65,6 +65,11 @@ descriptionField.addEventListener("keyup", (e) => {
 
 document.querySelector("#today").valueAsDate = new Date();
 
+var today = new Date().toISOString().split('T')[0];
+var sixMonthsAgo = new Date(new Date().getTime() - 184 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+document.getElementsByName("expense_date")[0].setAttribute('min', sixMonthsAgo);
+document.getElementsByName("expense_date")[0].setAttribute('max', today)
+
 function myFunction() {
   var popup = document.getElementById("myPopup");
   popup.classList.toggle("show");
