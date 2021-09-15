@@ -30,6 +30,7 @@
                 <div class="form-group  mt-3">
                     <label for="">Expense Category:(see category definitions)</label>
                     <select name="category" class="form-control form-control-sm">
+                        <option value="" selected disabled>Please select</option>
                         {% for category in categories %}
                             <option name="category" value="{{ category.name }}">{{ category.name }}</option>
                         {% endfor %}
