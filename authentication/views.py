@@ -155,8 +155,10 @@ class RegistrationView(View):
         if firstname and lastname and birth and year and school and postal and level and username and email and password:
             if not User.objects.filter(username=username).exists():
                 if not User.objects.filter(email=email).exists():
-                    if len(password) < 6:
-                        messages.error(request, 'Password shall be more than 6 characters')
+                    if not ((any(x.isupper() for x in password) and any(x.islower() for x in password) and
+                            any(x.isdigit() for x in password) and len(password) >= 7)):
+                        messages.error(request, 'Password should be eight-character and contains at least'
+                                                ' one uppercase, one lowercase and a number')
                         return render(request, 'authentication/registernew.html', context)
 
                     user = User.objects.create_user(username=username, email=email, firstname=firstname,
