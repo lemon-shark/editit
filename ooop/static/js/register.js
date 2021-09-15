@@ -17,6 +17,7 @@ const passwordField = document.querySelector('#passwordField');
 const emailFeedBackArea= document.querySelector('.emailFeedBackArea');
 const showPasswordToggle= document.querySelector('.showPasswordToggle');
 const submitBtn = document.querySelector('.submit-btn');
+const popuphint = document.querySelector('#myPopup');
 
 const handleToggleInput = (e) => {
   if (showPasswordToggle.textContent === "SHOW") {
@@ -240,3 +241,28 @@ yearField.addEventListener("keyup", (e) => {
         });
     }
 })
+
+popuphint.addEventListener("click", (e) => {
+    var popup = document.getElementById("myPopup");
+      popup.classList.toggle("show");
+})
+
+function myFunction() {
+      var popup = document.getElementById("myPopup");
+      popup.classList.toggle("show");
+      }
+
+function popup1() {
+      var popup = document.getElementById("popup1");
+      popup.classList.toggle("show");
+      }
+
+function popup2() {
+      var popup = document.getElementById("popup2");
+      popup.classList.toggle("show");
+      }
+
+function popup3() {
+      var popup = document.getElementById("popup3");
+      popup.classList.toggle("show");
+      }

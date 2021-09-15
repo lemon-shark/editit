@@ -37,9 +37,6 @@
                  </div>
                   <div class="lastname_feedback invalid-feedback" style="display:none"></div>
                   <div class="form-group">
-                      <div data-tip="We collect this information so that we can determine whether our sample of <br>
-                      educators is similar to the provincial population of educators, as well as to look at how age <br>
-                      interacts with spending.">
                          <input
                                  type="text"
                                  name="birth"
@@ -48,11 +45,17 @@
                                  class="form-control form-control-sm margin-bottom"
                                  value="{{ fieldValues.birth }}"
                          />
-                      </div>
+                 </div>
+                 <div class="popuphint" onclick="myFunction()"><span><b><i><small>Why this field needed?</small></i></b></span>
+                      <span class="popuptext" id="myPopup" style="padding-bottom: 1px">
+                          <p style="margin-left:1em; margin-top: 1em">
+                          We collect this information so that we can determine whether our sample of educators is similar
+                          to the provincial population of educators, as well as to look at how age interacts with spending.
+                          </p>
+                      </span>
                  </div>
                    <div class="birth_feedback invalid-feedback" style="display:none"></div>
-                  <div class="form-group py-3">
-                       <div data-tip="Why this field is needed?">
+                  <div class="form-group pt-2">
                          <input
                                  type="text"
                                  name="year"
@@ -61,28 +64,33 @@
                                  class="form-control form-control-sm margin-bottom"
                                  value="{{ fieldValues.year }}"
                          />
-                       </div>
+                 </div>
+                  <div class="popuphint" onclick="popup1()"><span><b><i><small>Why this field needed?</small></i></b></span>
+                      <span class="popuptext" id="popup1">
+                          <p style="margin-left:1em; margin-top: 1em">
+                          We collect this information so that we can determine whether our sample of educators is similar
+                          to the provincial population of educators, as well as to look at how teaching experience interacts
+                              with spending.
+                          </p>
+                      </span>
                  </div>
                   <div class="year_feedback invalid-feedback" style="display:none"></div>
-                 <div class="form-group">
-{#                     <input#}
-{#                             type="text"#}
-{#                             name="school"#}
-{#                             placeholder="School/Facility Name"#}
-{#                             id="schoolField"#}
-{#                             class="form-control form-control-sm margin-bottom"#}
-{#                             value="{{ fieldValues.school }}"#}
-{#                     />#}
+                 <div class="form-group pt-2">
                      <label for="">School board / primary work location:</label>
                      <select name="school" class="form-control form-control-sm">
                         {% for school in schools %}
                             <option name="school" value="{{ school.name }}">{{ school.name }}</option>
                         {% endfor %}
-                         <option>1</option>
-                         <option>2</option>
                     </select>
                  </div>
-                  <div class="form-group py-3">
+                 <div class="popuphint" onclick="popup2()"><span><b><i><small>Why this field needed?</small></i></b></span>
+                      <span class="popuptext" id="popup2">
+                          <p style="margin-left:1em; margin-top: 1em">
+                          We collect this information so that we can look at educator spending provincially and by school district.
+                          </p>
+                      </span>
+                 </div>
+                  <div class="form-group pt-2">
                        <div data-tip="Why this field is needed?">
                          <input
                                  type="text"
@@ -94,8 +102,15 @@
                          />
                        </div>
                  </div>
+                  <div class="popuphint" onclick="popup3()"><span><b><i><small>Why this field needed?</small></i></b></span>
+                      <span class="popuptext" id="popup3">
+                          <p style="margin-left:1em; margin-top: 1em">
+                          We collect this information so that we can look at educator spending provincially and by school district.
+                          </p>
+                      </span>
+                 </div>
                   <div class="postal_feedback invalid-feedback" style="display:none"></div>
-                  <div class="form-group">
+                  <div class="form-group pt-2">
                       <label for="">School Level:</label>
                      <select name="level" class="form-control form-control-sm">
                         {% for level in levels %}
@@ -186,49 +201,6 @@
  </div>
  </div>
     <style>
-        [data-tip] {
-            position:relative;
-        }
-        [data-tip]:before {
-            content:'';
-            /* hides the tooltip when not hovered */
-            display:none;
-            content:'';
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            border-bottom: 5px solid ghostwhite;
-            position:absolute;
-            top:30px;
-            left:35px;
-            z-index:8;
-            font-size:0;
-            line-height:0;
-            width:0;
-            height:0;
-        }
-        [data-tip]:after {
-            display:none;
-            content:attr(data-tip);
-            position:absolute;
-            top:35px;
-            left:0px;
-            padding:5px 8px;
-            background:ghostwhite;
-            color:black;
-            z-index:9;
-            font-size: 0.75em;
-            height:30px;
-            line-height:18px;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            border-radius: 3px;
-            white-space:nowrap;
-            word-wrap:normal;
-        }
-        [data-tip]:hover:before,
-        [data-tip]:hover:after {
-            display:block;
-        }
         .button {
           font-size: 1em;
           padding: 10px;
@@ -295,6 +267,61 @@
             width: 90%;
           }
         }
+
+     /* Popup container - can be anything you want */
+    .popuphint {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+        /* The actual popup */
+    .popuphint .popuptext {
+      visibility: hidden;
+      width: 400px;
+      background-color: lightslategrey;
+      color: #fff;
+      text-align: left;
+      border-radius: 6px;
+      position: absolute;
+      position: absolute;
+      z-index: 101;
+      bottom: 125%;
+      left: 0%;
+    }
+
+    /* Popup arrow */
+    .popuphint .popuptext::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: lightslategrey transparent transparent transparent;
+    }
+
+    /* Toggle this class - hide and show the popup */
+    .popuphint .show {
+      visibility: visible;
+      -webkit-animation: fadeIn 1s;
+      animation: fadeIn 1s;
+    }
+
+    /* Add animation (fade in the popup) */
+    @-webkit-keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity:1 ;}
+    }
     </style>
  <script src="{% static 'js/register.js' %}"></script>
 {% endblock %}
