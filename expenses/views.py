@@ -8,6 +8,7 @@ import re
 from django.views import View
 import json
 from django.http import JsonResponse
+from django.utils.datastructures import MultiValueDictKeyError
 
 
 @login_required(login_url='/authentication/loginnew')
@@ -74,16 +75,20 @@ def add_expense(request):
         amount = request.POST['amount']
         description = request.POST['description']
         date = request.POST['expense_date']
-        category = request.POST['category']
+
+        try:
+            category = request.POST['category']
+        except MultiValueDictKeyError:
+            category = False
         # kind = request.POST['kind']
 
         if not amount:
             messages.error(request, 'Amount is required')
             return render(request, 'expenses/add_expense.html', context)
 
-        # if not re.match(r'^[1-9]\d*$', amount):
-        #     messages.error(request, 'Please enter a positive amount')
-        #     return render(request, 'expenses/add_expense.html', context)
+        if not category:
+            messages.error(request, 'Category is required')
+            return render(request, 'expenses/add_expense.html', context)
 
         if not date:
             messages.error(request, 'Date is required')
