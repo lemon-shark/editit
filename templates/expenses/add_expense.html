@@ -59,14 +59,12 @@
 {#                </div>#}
                 <div class="form-group  mt-3">
                     <label for="">Description(Optional)</label>
-                    <textarea
-                           class="form-control"
-                           name="description"
-                           value="{{ values.description }}"
-                           placeholder="150 characters or fewer"
-                           id="descriptionField"
-                           row="3"
-                    >
+                    <textarea type="text"
+                              class="form-control form-control-sm"
+                              name="description"
+                              placeholder="150 characters or fewer"
+                              id="descriptionField"
+                              value="{{ values.description }}">
                     </textarea>
                 </div>
                 <div class="invalid-feedback description_feedback" style="display:none"></div>

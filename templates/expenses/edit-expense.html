@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="container mt-4">
 <div class="row">
@@ -14,19 +15,23 @@
         <a href="{% url 'expense-delete' expense.id %}" class="btn btn-danger btn-sm">Delete</a>
     </div>
 </div>
-
+<div class="col d-flex justify-content-center">
     <div class="card">
         <div class="card-body">
             <form action="{% url 'expense-edit' expense.id %}" method="post">
                 {% include 'partials/_messages.html' %}
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="">Amount</label>
-                    <input type="number" class="form-control form-control-sm" name="amount" value="{{ values.amount }}">
-                </div>
-                <div class="form-group  mt-3">
-                    <label for="">Description</label>
-                    <input type="text" class="form-control form-control-sm" name="description" value="{{ values.description }}">
+                    <label for="">Amount:(<small>example: 10.00</small>)</label>
+                    <input
+                            type="number"
+                            class="form-control form-control-sm currency"
+                            name="amount"
+                            id="amountField"
+                            value="{{ values.amount|floatformat:2 }}"
+                            step="0.01"
+                            min="1"
+                    />
                 </div>
 {#                <div class="form-group mt-3">#}
 {#                    <label for="">Expenditure in Kind:</label>#}
@@ -36,8 +41,8 @@
 {#                    <label for="no">No</label><br>#}
 {#                </div>#}
                 <div class="form-group  mt-3">
-                    <label for="">Category:</label>
-                    <select class="form-control" name="category">
+                    <label for="">Expense Category:(see category definitions)</label>
+                    <select name="category" class="form-control form-control-sm">
                         <option selected name="category" value="{{ values.category }}">{{ values.category }}</option>
                         {% for category in categories %}
                             <option name="category" value="{{ category.name }}">{{ category.name }}</option>
@@ -45,8 +50,22 @@
                     </select>
                 </div>
                 <div class="form-group mt-3">
+                <div class="invalid-feedback amount_feedback" style="display:none"></div>
                     <label for="">Date of Expense</label>
-                    <input type="date" class="form-control form-control-sm" name="expense_date">
+                    <input type="date"
+                           name="expense_date"
+                           id="today"
+                           class="form-control form-control-sm">
+                </div>
+                <div class="invalid-feedback date_feedback" style="display:none"></div>
+                <div class="form-group  mt-3">
+                    <label for="">Description(Optional)</label>
+                    <textarea type="text"
+                              class="form-control form-control-sm"
+                              name="description"
+                              row="3"
+                              value="{{ values.description }}">
+                    </textarea>
                 </div>
                 <div class="col mt-3 text-center">
                     <input type="submit" value="Save" class="btn btn-primary btn-primary-sm">
@@ -55,4 +74,6 @@
         </div>
     </div>
 </div>
+</div>
+    <script src="{% static 'js/expense.js' %}"></script>
 {% endblock %}
