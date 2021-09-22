@@ -122,10 +122,6 @@ def expense_edit(request, id):
             messages.error(request, 'Amount is required')
             return render(request, 'expenses/edit-expense.html', context)
 
-        if not description:
-            messages.error(request, 'Description is required')
-            return render(request, 'expenses/edit-expense.html', context)
-
         if not date:
             messages.error(request, 'Date is required')
             return render(request, 'expenses/edit-expense.html', context)
