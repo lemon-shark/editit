@@ -203,5 +203,3 @@ class DescriptionValidationView(View):
             return JsonResponse({'desc_error': 'Description should no longer than 150 characters.'}, status=400)
 
         return JsonResponse({'desc_valid': True})
-
-

@@ -1,5 +1,7 @@
 const amountField = document.querySelector('#amountField');
 const amountFeedbackArea= document.querySelector('.amount_feedback');
+const descriptionField= document.querySelector('#descriptionField');
+const descriptionFeedbackArea= document.querySelector('.description_feedback');
 const submitBtn = document.querySelector('.submit-btn');
 
 
@@ -36,7 +38,37 @@ amountField.addEventListener("keyup", (e) => {
     }
 })
 
+descriptionField.addEventListener("keyup", (e) => {
+    const descVal = e.target.value;
+    descriptionField.classList.remove("is-invalid");
+    descriptionFeedbackArea.style.display = "none";
+
+    if(descVal.length > 0) {
+        fetch("/validate-desc",{
+        body: JSON.stringify({ description: descVal}),
+        method: "POST",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                // console.log(data.amount_error);
+                if(data.desc_error) {
+                    submitBtn.disabled = true;
+                    descriptionField.classList.add("is-invalid");
+                    descriptionFeedbackArea.style.display = "block";
+                    descriptionFeedbackArea.innerHTML=`<p>${data.desc_error}</p>`
+                } else {
+                    submitBtn.removeAttribute("disabled");
+                }
+        });
+    }
+})
+
 document.querySelector("#today").valueAsDate = new Date();
+
+var today = new Date().toISOString().split('T')[0];
+var sixMonthsAgo = new Date(new Date().getTime() - 184 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+document.getElementsByName("expense_date")[0].setAttribute('min', sixMonthsAgo);
+document.getElementsByName("expense_date")[0].setAttribute('max', today)
 
 function myFunction() {
   var popup = document.getElementById("myPopup");
