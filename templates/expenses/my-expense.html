@@ -33,7 +33,7 @@
         <tbody>
             {% for expense in page_obj %}
             <tr>
-                <td>{{ expense.amount }}</td>
+                <td>{{ expense.amount|floatformat:2 }}</td>
                 <td>{{ expense.category }}</td>
                 <td>{{ expense.description }}</td>
                 <td>{{ expense.date }}</td>
