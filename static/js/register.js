@@ -1,13 +1,13 @@
 const firstnameField = document.querySelector('#firstnameField');
 const lastnameField = document.querySelector('#lastnameField');
-const schoolField = document.querySelector('#schoolField');
+//const schoolField = document.querySelector('#schoolField');
 const postalField = document.querySelector('#postalField');
 const usernameField = document.querySelector('#usernameField');
 const birthYearField = document.querySelector('#birthField');
 const yearField = document.querySelector('#yearField');
 const firstnamefeedbackArea= document.querySelector('.firstname_feedback');
 const lastnamefeedbackArea= document.querySelector('.lastname_feedback');
-const schoolfeedbackArea= document.querySelector('.school_feedback');
+//const schoolfeedbackArea= document.querySelector('.school_feedback');
 const postalfeedbackArea= document.querySelector('.postal_feedback');
 const birthYearfeedbackArea= document.querySelector('.birth_feedback');
 const yearfeedbackArea= document.querySelector('.year_feedback');
@@ -17,6 +17,7 @@ const passwordField = document.querySelector('#passwordField');
 const emailFeedBackArea= document.querySelector('.emailFeedBackArea');
 const showPasswordToggle= document.querySelector('.showPasswordToggle');
 const submitBtn = document.querySelector('.submit-btn');
+const popuphint = document.querySelector('#myPopup');
 
 const handleToggleInput = (e) => {
   if (showPasswordToggle.textContent === "SHOW") {
@@ -136,33 +137,31 @@ lastnameField.addEventListener("keyup", (e) => {
 })
 
 
-schoolField.addEventListener("keyup", (e) => {
-    const schoolVal = e.target.value;
-
-    schoolField.classList.remove("is-invalid");
-    schoolfeedbackArea.style.display = "none";
-
-    if(schoolVal.length >0 ) {
-        fetch("/authentication/validate-school",{
-        body: JSON.stringify({ school: schoolVal}),
-        method: "POST",
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data.school_error);
-                if(data.school_error) {
-                    submitBtn.disabled = true;
-                    schoolField.classList.add("is-invalid");
-                    schoolfeedbackArea.style.display = "block";
-                    schoolfeedbackArea.innerHTML=`<p>${data.school_error}</p>`
-                } else {
-                    submitBtn.removeAttribute("disabled");
-                }
-        });
-    }
-})
-
-
+// schoolField.addEventListener("keyup", (e) => {
+//     const schoolVal = e.target.value;
+//
+//     schoolField.classList.remove("is-invalid");
+//     schoolfeedbackArea.style.display = "none";
+//
+//     if(schoolVal.length >0 ) {
+//         fetch("/authentication/validate-school",{
+//         body: JSON.stringify({ school: schoolVal}),
+//         method: "POST",
+//         })
+//             .then((res) => res.json())
+//             .then((data) => {
+//                 console.log(data.school_error);
+//                 if(data.school_error) {
+//                     submitBtn.disabled = true;
+//                     schoolField.classList.add("is-invalid");
+//                     schoolfeedbackArea.style.display = "block";
+//                     schoolfeedbackArea.innerHTML=`<p>${data.school_error}</p>`
+//                 } else {
+//                     submitBtn.removeAttribute("disabled");
+//                 }
+//         });
+//     }
+// })
 postalField.addEventListener("keyup", (e) => {
     const postalVal = e.target.value;
 
@@ -242,3 +241,28 @@ yearField.addEventListener("keyup", (e) => {
         });
     }
 })
+
+popuphint.addEventListener("click", (e) => {
+    var popup = document.getElementById("myPopup");
+      popup.classList.toggle("show");
+})
+
+function myFunction() {
+      var popup = document.getElementById("myPopup");
+      popup.classList.toggle("show");
+      }
+
+function popup1() {
+      var popup = document.getElementById("popup1");
+      popup.classList.toggle("show");
+      }
+
+function popup2() {
+      var popup = document.getElementById("popup2");
+      popup.classList.toggle("show");
+      }
+
+function popup3() {
+      var popup = document.getElementById("popup3");
+      popup.classList.toggle("show");
+      }
