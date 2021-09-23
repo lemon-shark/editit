@@ -114,6 +114,7 @@
                   <div class="form-group pt-2">
                       <label for="">School Level:</label>
                      <select name="level" class="form-control form-control-sm">
+                        <option value="" selected disabled>Please select</option>
                         {% for level in levels %}
                             <option name="level" value="{{ level.name }}">{{ level.name }}</option>
                         {% endfor %}
