@@ -46,7 +46,17 @@
 {#                    <label for="no">No</label><br>#}
 {#                </div>#}
                 <div class="form-group  mt-3">
-                    <label for="">Expense Category:(see category definitions)</label>
+                    <label for="">Expense Category:(see
+                    <div class="popup" onclick="myFunction()"><span><b><i><small>Category Definitions</small></i></b></span>
+                        <span class="popuptext" id="myPopup">
+                          &nbsp;&nbsp;<b>COVID related</b>: Cleaning supplies, PPE<br>
+                          &nbsp;&nbsp;<b>Extra curricular material</b>: Athletic equipment; Musical instruments / &nbsp;&nbsp;supplies; Materials for clubs and student groups<br>
+                          &nbsp;&nbsp;<b>Financial support for students</b>: Bus fares; Clothing; Food; Cash; Hygiene &nbsp;&nbsp;products<br>
+                          &nbsp;&nbsp;<b>Student learning materials</b>: Classroom consumables: pens, pencils, &nbsp;&nbsp;notebooks, art supplies, etc.; Library resources; Textbooks<br>
+                          &nbsp;&nbsp;<b>Teaching materials</b>: Curriculum / teaching; Inclusive and adaptive; &nbsp;&nbsp;enrichment: computers, printers & supplies, software, online resources, etc.<br>
+                      </span>
+                    </div>
+                    <label>)</label>
                     <select name="category" class="form-control form-control-sm">
                         <option selected name="category" value="{{ values.category }}">{{ values.category }}</option>
                         {% for category in categories %}
@@ -82,5 +92,64 @@
     </div>
 </div>
 </div>
+    <style>
+    /* Popup container - can be anything you want */
+    .popup {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* The actual popup */
+    .popup .popuptext {
+      visibility: hidden;
+      width: 500px;
+      background-color: lightslategrey;
+      color: #fff;
+      text-align: left;
+      border-radius: 6px;
+      padding: 2px 0;
+      position: absolute;
+      position: absolute;
+      z-index: 101;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -20vw;
+    }
+
+    /* Popup arrow */
+    .popup .popuptext::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: lightslategrey transparent transparent transparent;
+    }
+
+    /* Toggle this class - hide and show the popup */
+    .popup .show {
+      visibility: visible;
+      -webkit-animation: fadeIn 1s;
+      animation: fadeIn 1s;
+    }
+
+    /* Add animation (fade in the popup) */
+    @-webkit-keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity:1 ;}
+    }
+    </style>
     <script src="{% static 'js/expense.js' %}"></script>
 {% endblock %}
