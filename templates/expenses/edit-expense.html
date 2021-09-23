@@ -19,7 +19,7 @@
         </a>
     </div>
 </div>
-<div class="col d-flex justify-content-center">
+<div class="col d-flex justify-content-center pt-5">
     <div class="card">
         <div class="card-body">
             <form action="{% url 'expense-edit' expense.id %}" method="post">
@@ -59,6 +59,7 @@
                     <input type="date"
                            name="expense_date"
                            id="today"
+                           value="{{ values.expense_date }}"
                            class="form-control form-control-sm">
                 </div>
                 <div class="invalid-feedback date_feedback" style="display:none"></div>
