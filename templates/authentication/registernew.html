@@ -78,6 +78,7 @@
                  <div class="form-group pt-2">
                      <label for="">School board / primary work location:</label>
                      <select name="school" class="form-control form-control-sm">
+                        <option value="" selected disabled>Please select</option>
                         {% for school in schools %}
                             <option name="school" value="{{ school.name }}">{{ school.name }}</option>
                         {% endfor %}
