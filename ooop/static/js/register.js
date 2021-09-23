@@ -252,8 +252,8 @@ function myFunction() {
       popup.classList.toggle("show");
       }
 
-function popup1() {
-      var popup = document.getElementById("popup1");
+function popup4() {
+      var popup = document.getElementById("popup4");
       popup.classList.toggle("show");
       }
 

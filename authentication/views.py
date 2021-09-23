@@ -140,12 +140,16 @@ class RegistrationView(View):
         lastname = request.POST['lastname']
         birth = request.POST['birth']
         year = request.POST['year']
-        school = request.POST['school']
+
         postal = request.POST['postal']
-        level = request.POST['level']
+
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
+
+        school = request.POST.get('school', False)
+        level = request.POST.get('level', False)
+
         context = {
             'schools': schools,
             'levels': levels,
