@@ -19,19 +19,32 @@
 {#                            </a>#}
 {#                            </div>#}
 {#                        </div>#}
-
-                     <h2>IPE/BC Out of Our Pockets Project</h2><br>
+                        <div class="container py-2">
+                             <div class="row">
+                                        <div class="col-8">
+                                            <a href="https://instituteforpubliceducation.org/" target="_blank">
+                                            <img src="{% static 'img/IPEBC.png' %}" style="width: 250px;height: 70px">
+                                        </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="https://www.sfu.ca/" target="_blank">
+                                            <img src="{% static 'img/sfu.png' %}" style="width: 60px;height: 40px;margin-top: 6px">
+                                        </a>
+                                        </div>
+                             </div>
+                         </div>
+                     <br>
                      <p class="lead">Thank you for your interest in supporting our research on the personal investments educators make
                          in support of their students, colleagues, classrooms and schools. The research is supported by
                          a partnership between IPE/BC and Simon Fraser University. Please register your name and e-mail
-                         address below so that we can contact you when the data collection system is up and running.</p><br>
-                     <p class="lead">We greatly appreciate your assistance in this project!</p><br>
+                         address below so that we can contact you when the data collection system is up and running.</p>
+                     <p class="lead">We greatly appreciate your assistance in this project!</p>
                      <h4 class="text-center">Account Login</h4>
                     </div>
               <form action="{% url 'loginnew' %}" method="post" class='form-horizontal'>
                   {% csrf_token %}
                   {% include 'partials/_messages.html' %}
-                 <div class="form-group py-3">
+                 <div class="form-group py-2">
                      <input
                              type="text"
                              name="username"
@@ -55,7 +68,7 @@
                       <input type="submit" value="Login" class="btn btn-block btn-primary submit-btn" >
                   </div>
              </form>
-             <div class="container" >
+             <div class="container">
              <span class="text-lead lead" style="font-size: small">Don't have an account?&nbsp;</span><a href="{% url 'registernew' %}">Register</a><br>
              <span class="text-lead lead" style="font-size: small">Forgot password?&nbsp;</span><a href="{% url 'request-password' %}">Reset it</a>
              </div>
@@ -68,4 +81,31 @@
  </div>
 
  <script src="{% static 'js/register.js' %}"></script>
+ <style>
+        #sfu-logo {
+          width: 50px;
+          height: @picture-size;
+          -ms-transform: rotate(@rotation);
+          /* IE 9 */
+          -webkit-transform: rotate(@rotation);
+          /* Safari 3-8 */
+          transform: rotate( @rotation );
+          position: absolute;
+          top: -50px;
+          right: 30px;
+        }
+
+        #ipe-logo {
+          width: 260px;
+          height: @picture-size;
+          -ms-transform: rotate(@rotation);
+          /* IE 9 */
+          -webkit-transform: rotate(@rotation);
+          /* Safari 3-8 */
+          transform: rotate( @rotation );
+          position: absolute;
+          top: -50px;
+          right: 80px;
+        }
+  </style>
 {% endblock %}

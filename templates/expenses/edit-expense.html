@@ -22,7 +22,7 @@
 <div class="col d-flex justify-content-center pt-5">
     <div class="card">
         <div class="card-body">
-            <form action="{% url 'expense-edit' expense.id %}" method="post">
+            <div action="{% url 'expense-edit' expense.id %}" method="post">
                 {% include 'partials/_messages.html' %}
                 {% csrf_token %}
                 <div class="form-group">
@@ -55,7 +55,7 @@
                           &nbsp;&nbsp;<b>Student learning materials</b>: Classroom consumables: pens, pencils, &nbsp;&nbsp;notebooks, art supplies, etc.; Library resources; Textbooks<br>
                           &nbsp;&nbsp;<b>Teaching materials</b>: Curriculum / teaching; Inclusive and adaptive; &nbsp;&nbsp;enrichment: computers, printers & supplies, software, online resources, etc.<br>
                       </span>
-                    </div>
+                    </div></label>
                     <label>)</label>
                     <select name="category" class="form-control form-control-sm">
                         <option selected name="category" value="{{ values.category }}">{{ values.category }}</option>
