@@ -186,7 +186,7 @@ class RegistrationView(View):
                         [email]
                     )
                     email.send(fail_silently=False)
-                    messages.success(request, 'Thank you for registering for the Out of Our Pockets Project. Please check your e-mail as you will need to validate your e-mail address before you can sign in to the system.')
+                    messages.success(request, 'Account successfully created! Thank you for registering for the Out of Our Pockets Project. Please check your e-mail as you will need to validate your e-mail address before you can sign in to the system.')
                     return render(request, 'authentication/registernew.html', context)
 
             return render(request, 'authentication/registernew.html', context)
