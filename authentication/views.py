@@ -280,7 +280,7 @@ class RequestPasswordResetEmail(View):
             email = EmailMessage(
                 email_subject,
                 email_body,
-                'noreply@semycolon.com',
+                'noreply@outofourpockets.ca',
                 [email]
             )
             email.send(fail_silently=False)
