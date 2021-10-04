@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+<div class="row">
+    <div class="col-md-10">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'expenses' %}">Account</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Account</li>
+        </ol>
+        </nav>
+    </div>
+    <div class="col-md-2">
+        <a href="{% url 'delete_account' user.id %}"
+           onclick="return confirm('Are you sure you want to delete your account completely and withdraw from our research study?')"
+           class="btn btn-danger btn-sm">
+            Withdraw
+        </a>
+    </div>
+</div>
+<div class="col d-flex justify-content-center">
+    <div class="card">
+        <div class="card-body">
+            <div action="#">
+            <div action="{% url 'my_account' user.id %}" method="post">
+                {% include 'partials/_messages.html' %}
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="">First Name:</label>
+                    <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            name="firstname"
+                            value="{{ values.firstname }}"
+                    >
+                </div>
+                <div class="form-group  mt-3">
+                    <label for="">Last Name:</label>
+                    <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            name="lastname"
+                            value="{{ values.lastname }}"
+                    >
+                </div>
+                <div class="form-group mt-3">
+                    <label for="">Birth Year</label>
+                    <input type="number"
+                           name="birth_year"
+                           value="{{ values.birth_year }}"
+                           class="form-control form-control-sm">
+                </div>
+                <div class="invalid-feedback date_feedback" style="display:none"></div>
+                <div class="form-group  mt-3">
+                    <label for="">Total Years of Teaching Experience</label>
+                    <input type="number"
+                           name="year"
+                           value="{{ values.year }}"
+                           class="form-control form-control-sm">
+                </div>
+                <div class="invalid-feedback description_feedback" style="display:none"></div>
+                <div class="form-group  mt-3">
+                    <label for="">School Board / Primary Work Location</label>
+                    <input type="text"
+                              class="form-control form-control-sm"
+                              name="school"
+                              value="{{ values.school }}">
+                </div>
+                <div class="form-group  mt-3">
+                    <label for="">School Post Code</label>
+                    <input type="text"
+                              class="form-control form-control-sm"
+                              name="postal"
+                              value="{{ values.postal }}">
+                </div>
+                <div class="form-group  mt-3">
+                    <label for="">School Level</label>
+                    <input type="text"
+                              class="form-control form-control-sm"
+                              name="level"
+                              value="{{ values.level }}">
+                </div>
+                <div class="form-group  mt-3">
+                    <label for="">Username</label>
+                    <input type="text"
+                              class="form-control form-control-sm"
+                              name="username"
+                              value="{{ values.username }}">
+                </div>
+                <div class="form-group  mt-3">
+                    <label for="">Email</label>
+                    <input type="text"
+                              class="form-control form-control-sm"
+                              name="email"
+                              value="{{ values.email }}">
+                </div>
+{#                <div class="col mt-3 text-center">#}
+{#                    <input type="submit" value="Save" class="btn btn-primary btn-primary-sm submit-btn">#}
+{#                </div>#}
+            </form>
+        </div>
+       </div>
+    </div>
+  </div>
+</div>
+</div>
+    <style>
+    /* Popup container - can be anything you want */
+    .popup {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* The actual popup */
+    .popup .popuptext {
+      visibility: hidden;
+      width: 500px;
+      background-color: lightslategrey;
+      color: #fff;
+      text-align: left;
+      border-radius: 6px;
+      padding: 2px 0;
+      position: absolute;
+      position: absolute;
+      z-index: 101;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -20vw;
+    }
+
+    /* Popup arrow */
+    .popup .popuptext::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: lightslategrey transparent transparent transparent;
+    }
+
+    /* Toggle this class - hide and show the popup */
+    .popup .show {
+      visibility: visible;
+      -webkit-animation: fadeIn 1s;
+      animation: fadeIn 1s;
+    }
+
+    /* Add animation (fade in the popup) */
+    @-webkit-keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity:1 ;}
+    }
+    </style>
+{% endblock %}

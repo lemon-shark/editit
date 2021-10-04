@@ -1,20 +1,13 @@
-# from django.contrib.auth.decorators import login_required
+# from django.http import HttpResponse
 # from django.shortcuts import render
-#
-# from expenses.models import Category, Expense
-#
-#
-# @login_required(login_url='/authentication/loginnew')
+# from .models import Account
+
+
 # def my_account(request):
-#     categories = Category.objects.all()
-#     expenses = Expense.objects.filter(owner=request.user)
-#
+#     account = Account.objects.filter(user=self.request.user)
 #     context = {
-#         'expenses': expenses,
+#         # 'categories': categories,
+#         'values': request.POST
 #     }
-#     return render(request, 'my-account.html', context)
-from django.http import HttpResponse
-
-
-def my_account(request):
-    return HttpResponse("Account app works!")
+#     return render(request, 'account/account.html')
+    # return HttpResponse("Account app works!")

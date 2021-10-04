@@ -29,6 +29,75 @@ User = get_user_model()
 #     from django.contrib.auth.models import User
 
 
+def account_edit(request, id):
+    account = User.objects.get(pk=id)
+    context = {
+        'account': account,
+        'values': account,
+    }
+    if request.method == 'GET':
+        return render(request, 'authentication/account.html', context)
+
+    # if request.method == 'POST':
+    #     amount = request.POST['amount']
+    #     description = request.POST['description']
+    #     date = request.POST['expense_date']
+    #     category = request.POST['category']
+    #     # kind = request.POST['kind']
+    #
+    #     if not amount:
+    #         messages.error(request, 'Amount is required')
+    #         return render(request, 'expenses/edit-expense.html', context)
+    #
+    #     if not date:
+    #         messages.error(request, 'Date is required')
+    #         return render(request, 'expenses/edit-expense.html', context)
+    #
+    #     expense.owner = request.user
+    #     expense.amount = amount
+    #     expense.date = date
+    #     expense.category = category
+    #     expense.description = description
+    #
+    #     expense.save()
+    #     messages.success(request, 'Expense updated successfully')
+    #     return redirect('my-expenses')
+
+
+def delete_account(request, id):
+    account = User.objects.get(pk=id)
+    account.delete()
+    messages.success(request, 'Account removed')
+    return redirect('loginnew')
+
+class AccountView(View):
+
+    def get(self, request):
+        account = User.objects.get(pk=self.request.user.id)
+        # account = User.objects.filter(username=self.request.user.username,
+        #                               email=self.request.user.email,
+        #                               firstname=self.request.user.firstname,
+        #                               lastname=self.request.user.lastname,
+        #                               birth_year=self.request.user.birth_year,
+        #                               year=self.request.user.year,
+        #                               school=self.request.user.school,
+        #                               postal=self.request.user.postal,
+        #                               level=self.request.user.level)
+        context = {
+            'values': account
+        }
+        return render(request, 'authentication/account.html', context)
+
+    def post(self, request):
+        account = User.objects.filter(user=self.request.user)
+        context = {
+            # 'categories': categories,
+            'values': request.POST
+        }
+        return render(request, 'authentication/my_account.html')
+        # return HttpResponse("Account app works!")
+
+
 class FirstnameValidationView(View):
     def post(self, request):
         data = json.loads(request.body)

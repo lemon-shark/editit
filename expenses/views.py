@@ -13,9 +13,9 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 @login_required(login_url='/authentication/loginnew')
 def index(request):
-    categoties = Category.objects.all()
+    categories = Category.objects.all()
     context = {
-        'categories': categoties,
+        'categories': categories,
         'values': request.POST
     }
 
@@ -48,7 +48,6 @@ def index(request):
 
 
 def expense_my(request):
-    categories = Category.objects.all()
     expenses = Expense.objects.filter(owner=request.user)
     paginator = Paginator(expenses, 5)
     page_number = request.GET.get('page')
