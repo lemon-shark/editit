@@ -87,12 +87,6 @@ class Account(AbstractBaseUser):
     def __str__(self):
         return self.username
 
-    def __str__(self):
-        return self.school
-
-    def __str__(self):
-        return self.level
-
     class Meta:
         ordering = ['-date_joined']
 
