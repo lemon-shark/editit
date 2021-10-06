@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'expenses',
     'account',
     'contact',
+    'import_export',
 ]
 
 MIDDLEWARE = [
