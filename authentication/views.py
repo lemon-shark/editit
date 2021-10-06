@@ -70,6 +70,7 @@ def delete_account(request, id):
     messages.success(request, 'Account removed')
     return redirect('loginnew')
 
+
 class AccountView(View):
 
     def get(self, request):
@@ -104,8 +105,10 @@ class FirstnameValidationView(View):
         first_name = data['firstname']
 
         if not str(first_name).isalpha():
-            return JsonResponse({'firstname_error': 'First name should only contain alphabet letters'},
-                                status=400)
+            return JsonResponse({'firstname_error': 'First name should only contain alphabet letters'}, status=400)
+
+        if len(first_name) > 29:
+            return JsonResponse({'firstname_error': 'First name should no longer than 30 characters.'}, status=400)
         return JsonResponse({'firstname_valid': True})
 
 
@@ -115,8 +118,10 @@ class LastnameValidationView(View):
         last_name = data['lastname']
 
         if not str(last_name).isalpha():
-            return JsonResponse({'lastname_error': 'Last name should only contain alphabet letters'},
-                                status=400)
+            return JsonResponse({'lastname_error': 'Last name should only contain alphabet letters'}, status=400)
+
+        if len(last_name) > 29:
+            return JsonResponse({'lastname_error': 'Last name should no longer than 30 characters.'}, status=400)
         return JsonResponse({'lastname_valid': True})
 
 
@@ -173,6 +178,9 @@ class UsernameValidationView(View):
             return JsonResponse({'username_error': 'Username should only contain alphanumeric characters'}, status=400)
         if User.objects.filter(username=username).exists():
             return JsonResponse({'username_error': 'Username in use, please choose another one'}, status=409)
+
+        if len(username) > 29:
+            return JsonResponse({'username_error': 'Username should no longer than 30 characters.'}, status=400)
         return JsonResponse({'username_valid': True})
 
 
@@ -185,6 +193,8 @@ class EmailValidationView(View):
             return JsonResponse({'email_error': 'Email is invalid'}, status=400)
         if User.objects.filter(email=email).exists():
             return JsonResponse({'email_error': 'Email in use, please choose another one'}, status=409)
+        if len(email) > 29:
+            return JsonResponse({'email_error': 'Email should no longer than 30 characters.'}, status=400)
         return JsonResponse({'email_valid': True})
 
 
