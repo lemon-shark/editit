@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 from django.conf import settings
 import csv
 from django.http import HttpResponse
-from io import StringIO
-from django.contrib import admin
-from csvexport.actions import csvexport
+# from io import StringIO
+# from django.contrib import admin
+# from csvexport.actions import csvexport
 
 
 class Expense(models.Model):
@@ -34,8 +34,8 @@ class Category(models.Model):
         return self.name
 
 
-class StatAdmin(admin.ModelAdmin):
-    actions = [csvexport]
+# class StatAdmin(admin.ModelAdmin):
+#     actions = [csvexport]
     # list_display = ('amount', 'date', 'description', 'owner', 'category')
     #
     # def download_csv(self, request, queryset):
