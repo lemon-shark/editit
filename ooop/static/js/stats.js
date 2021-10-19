@@ -9,7 +9,6 @@ var renderChart = (data, labels) => {
           label: "Expenses in CA$",
           data: data,
           backgroundColor: [
-            "rgba(100, 50, 100, 0.2)",
             "rgba(255, 99, 132, 0.2)",
             "rgba(54, 162, 235, 0.2)",
             "rgba(255, 206, 86, 0.2)",
@@ -18,7 +17,6 @@ var renderChart = (data, labels) => {
             "rgba(255, 159, 64, 0.2)",
           ],
           borderColor: [
-            "rgba(100, 50, 100, 1)",
             "rgba(255, 99, 132, 1)",
             "rgba(54, 162, 235, 1)",
             "rgba(255, 206, 86, 1)",
