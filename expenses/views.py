@@ -144,9 +144,8 @@ def delete_expense(request, id):
 
 
 def expense_category_summary(request):
-    today = datetime.date.today()
-    six_months_ago = today - datetime.timedelta(days=30 * 6)
-    expenses = Expense.objects.filter(owner=request.user, date__gte=six_months_ago, date__lte=today)
+
+    expenses = Expense.objects.filter(owner=request.user)
     finalrep = {}
 
     def get_category(expense):
